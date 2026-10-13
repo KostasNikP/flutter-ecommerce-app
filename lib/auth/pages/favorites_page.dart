@@ -66,10 +66,10 @@ class FavoritesPage extends StatelessWidget {
                         itemCount: favorites.length,
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 275,
+                          maxCrossAxisExtent: constraints.maxWidth < 650 ? 210 : 275,
                           mainAxisSpacing: 16,
                           crossAxisSpacing: 16,
-                          childAspectRatio: 0.73,
+                          childAspectRatio: constraints.maxWidth < 650 ? 0.66 : 0.73,
                         ),
                         itemBuilder: (context, index) =>
                             MyProductTile(product: favorites[index]),

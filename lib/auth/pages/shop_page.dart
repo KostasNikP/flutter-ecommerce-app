@@ -345,10 +345,10 @@ class _ShopPageState extends State<ShopPage> {
                           itemCount: products.length,
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: compact ? 390 : 275,
+                            maxCrossAxisExtent: compact ? 210 : 275,
                             mainAxisSpacing: 16,
                             crossAxisSpacing: 16,
-                            childAspectRatio: compact ? 0.82 : 0.73,
+                            childAspectRatio: compact ? 0.66 : 0.73,
                           ),
                           itemBuilder: (context, index) =>
                               MyProductTile(product: products[index]),

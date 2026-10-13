@@ -25,6 +25,8 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 
 The existing [demo GIF](demo.gif) was recorded before the current redesign and may show an earlier interface.
 
+Product-specific photos for the seven accessories/devices are loaded from Wikimedia Commons with [credits and license information](IMAGE_CREDITS.md), and fall back to illustrations offline. Existing bundled iPhone images remain local.
+
 ## Tech stack
 
 - Flutter / Dart — cross-platform UI
