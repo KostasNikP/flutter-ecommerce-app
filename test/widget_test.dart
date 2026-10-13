@@ -50,5 +50,61 @@ void main() {
       expect(trending, isNotEmpty);
       expect(trending.every((product) => product.category == 'trend'), isTrue);
     });
+
+
+    test('wishlist toggles without duplicates', () {
+      final first = shop.shop.first;
+      shop.toggleFavorite(first.id);
+      expect(shop.isFavorite(first.id), isTrue);
+      expect(shop.favorites.length, 1);
+      shop.toggleFavorite(first.id);
+      expect(shop.isFavorite(first.id), isFalse);
+      expect(shop.favorites, isEmpty);
+    });
+
+    test('complete removal clears all quantities for a product', () {
+      final item = shop.shop.first;
+      shop.addToCart(item.id, item);
+      shop.addToCart(item.id, item);
+      shop.removeProductCompletely(item.id);
+      expect(shop.cart, isEmpty);
+    });
+
+    test('demo order creates snapshot, applies coupon, clears cart', () {
+      final item = shop.shop.first;
+      shop.addToCart(item.id, item);
+      shop.addToCart(item.id, item);
+      final order = shop.placeDemoOrder(
+        customerName: 'Test User',
+        deliveryAddress: '123 Demo Street',
+        paymentMethod: 'Demo card',
+        promoCode: 'welcome10',
+      );
+
+      expect(order.itemCount, 2);
+      expect(order.subtotal, closeTo(item.price * 2, 0.001));
+      expect(order.discount, closeTo(item.price * 0.2, 0.001));
+      expect(order.total, closeTo(item.price * 1.8, 0.001));
+      expect(shop.cart, isEmpty);
+      expect(shop.orders.single.id, order.id);
+      expect(order.receipt, contains('NOVA / Demo order'));
+      expect(order.receipt, contains('Test User'), isFalse);
+
+      // A new cart must not alter a completed order's item snapshot.
+      shop.addToCart(item.id, item);
+      expect(order.items.single.quantity, 2);
+      expect(shop.getTotalItemCount(), 1);
+    });
+
+    test('checking out with an empty cart is rejected', () {
+      expect(
+        () => shop.placeDemoOrder(
+          customerName: 'Test',
+          deliveryAddress: 'Demo address',
+          paymentMethod: 'Demo card',
+        ),
+        throwsStateError,
+      );
+    });
   });
 }
