@@ -14,7 +14,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 | Bag | Add items, update quantities, remove items, clear cart, live totals |
 | Checkout | Name/address validation, simulated payment methods, WELCOME10 promo |
 | Orders | Confirmation, itemized responsive receipts, copy to clipboard and order history |
-| Profile | Demo name/email, edit display name, theme switch, wishlist/orders links |
+| Entry & profile | Responsive sign-in, demo email entry, instant demo account, guest access, demo profile registration, theme switch, wishlist/orders links |
 | Navigation | Side drawer, direct bag access, route handling |
 
 **Persistence:** Shopping bag, favorites and demo orders survive browser refresh using local `shared_preferences`. The app always starts in dark mode; visitors can switch to light during a session. The demo user session resets. No credit-card data is stored.
@@ -67,6 +67,10 @@ flutter run
 ## Product presentation
 
 The photo carousel was removed in favor of an image-free catalog with cohesive illustrated device motifs. The same visual language is used on cards, product details and the bag. Adding to the bag shows a small floating confirmation instead of a large snackbar.
+
+## Demo access & authentication
+
+The welcome screen has **three working demo entry methods**: provide an email for a local session (validated for basic format but **not verified**), use the instant built-in **Demo Shopper** account, or continue anonymously as **Guest**. The demo profile form lets you choose a display name and email. No passwords are required or stored; sessions are in memory. **This is not real authentication** and should not be used to protect private data. Google/Apple OAuth would require a configured identity backend and is deliberately not represented as working.
 
 ## Mobile experience
 
