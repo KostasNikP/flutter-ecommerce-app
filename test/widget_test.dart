@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_app/auth/themes/theme_provider.dart';
 import 'package:shop_app/auth/models/shop.dart';
 
 void main() {
@@ -107,4 +109,38 @@ void main() {
       );
     });
   });
+  group('Local persistence', () {
+    test('favorites, orders and bag survive a restart', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final shop = Shop(preferences: prefs);
+      final product = shop.shop.first;
+
+      shop.toggleFavorite(product.id);
+      shop.addToCart(product.id, product);
+      shop.placeDemoOrder(
+        customerName: 'Demo Customer',
+        deliveryAddress: '123 Example Street',
+        paymentMethod: 'Demo card',
+      );
+      shop.addToCart(product.id, product);
+
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+      final restored = Shop(preferences: prefs);
+      expect(restored.isFavorite(product.id), isTrue);
+      expect(restored.getTotalItemCount(), 1);
+      expect(restored.orders.single.itemCount, 1);
+      expect(restored.orders.single.total, closeTo(product.price, 0.001));
+    });
+
+    test('theme preference survives a restart', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final theme = ThemeProvider(preferences: prefs);
+      theme.toggleTheme();
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+      expect(ThemeProvider(preferences: prefs).isDarkMode, isTrue);
+    });
+  });
+
 }

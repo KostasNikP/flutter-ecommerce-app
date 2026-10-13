@@ -1,9 +1,20 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/auth/models/product.dart';
 import 'package:shop_app/auth/models/shop_order.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Shop extends ChangeNotifier {
+  Shop({SharedPreferences? preferences}) : _preferences = preferences {
+    _restore();
+  }
+
+  static const _storageKey = 'nova.store.v1';
+  final SharedPreferences? _preferences;
+
   // Products for sale
   final List<Product> _shop = [
     // Trend
@@ -129,7 +140,7 @@ class Shop extends ChangeNotifier {
     if (!_favorites.add(productId)) {
       _favorites.remove(productId);
     }
-    notifyListeners();
+    _notifyAndPersist();
   }
 
   void addToCart(int id, Product product) {
@@ -146,7 +157,7 @@ class Shop extends ChangeNotifier {
         category: product.category,
       ));
     }
-    notifyListeners();
+    _notifyAndPersist();
   }
 
   void removeFromCart(Product product) {
@@ -157,12 +168,12 @@ class Shop extends ChangeNotifier {
     } else {
       _cart.removeAt(index);
     }
-    notifyListeners();
+    _notifyAndPersist();
   }
 
   void removeProductCompletely(int productId) {
     _cart.removeWhere((item) => item.id == productId);
-    notifyListeners();
+    _notifyAndPersist();
   }
 
   double getTotalPrice() =>
@@ -173,7 +184,7 @@ class Shop extends ChangeNotifier {
 
   void clearCart() {
     _cart.clear();
-    notifyListeners();
+    _notifyAndPersist();
   }
 
   /// Creates a local demo order; there is no payment gateway or backend.
@@ -214,8 +225,123 @@ class Shop extends ChangeNotifier {
     );
     _orders.insert(0, order);
     _cart.clear();
-    notifyListeners();
+    _notifyAndPersist();
     return order;
+  }
+
+  Map<String, dynamic> _productJson(Product product) => {
+        'id': product.id,
+        'name': product.name,
+        'price': product.price,
+        'description': product.description,
+        'image': product.imagePath,
+        'category': product.category,
+        'quantity': product.quantity,
+      };
+
+  Product _productFromJson(Object? raw) {
+    final item = Map<String, dynamic>.from(raw as Map);
+    return Product(
+      id: (item['id'] as num).toInt(),
+      name: item['name'] as String,
+      price: (item['price'] as num).toDouble(),
+      description: item['description'] as String,
+      imagePath: item['image'] as String,
+      category: item['category'] as String,
+      quantity: (item['quantity'] as num).toInt(),
+    );
+  }
+
+  Map<String, dynamic> _orderJson(ShopOrder order) => {
+        'id': order.id,
+        'createdAt': order.createdAt.toIso8601String(),
+        'items': order.items.map(_productJson).toList(),
+        'subtotal': order.subtotal,
+        'discount': order.discount,
+        'total': order.total,
+        'customerName': order.customerName,
+        'deliveryAddress': order.deliveryAddress,
+        'paymentMethod': order.paymentMethod,
+      };
+
+  ShopOrder _orderFromJson(Object? raw) {
+    final item = Map<String, dynamic>.from(raw as Map);
+    return ShopOrder(
+      id: item['id'] as String,
+      createdAt: DateTime.parse(item['createdAt'] as String),
+      items: (item['items'] as List)
+          .map(_productFromJson)
+          .toList(growable: false),
+      subtotal: (item['subtotal'] as num).toDouble(),
+      discount: (item['discount'] as num).toDouble(),
+      total: (item['total'] as num).toDouble(),
+      customerName: item['customerName'] as String,
+      deliveryAddress: item['deliveryAddress'] as String,
+      paymentMethod: item['paymentMethod'] as String,
+    );
+  }
+
+  void _persist() {
+    final prefs = _preferences;
+    if (prefs == null) return;
+    final payload = <String, dynamic>{
+      'favorites': _favorites.toList(),
+      'cart': _cart.map(_productJson).toList(),
+      'orders': _orders.map(_orderJson).toList(),
+    };
+    unawaited(prefs.setString(_storageKey, jsonEncode(payload)));
+  }
+
+  void _restore() {
+    final raw = _preferences?.getString(_storageKey);
+    if (raw == null) return;
+    try {
+      final data = jsonDecode(raw);
+      if (data is! Map<String, dynamic>) return;
+
+      final favorites = data['favorites'];
+      if (favorites is List) {
+        for (final id in favorites) {
+          if (id is num && _shop.any((item) => item.id == id.toInt())) {
+            _favorites.add(id.toInt());
+          }
+        }
+      }
+
+      final cart = data['cart'];
+      if (cart is List) {
+        for (final rawProduct in cart) {
+          try {
+            final product = _productFromJson(rawProduct);
+            if (product.quantity >= 1 &&
+                product.quantity <= 99 &&
+                _shop.any((item) => item.id == product.id)) {
+              _cart.add(product);
+            }
+          } catch (_) {
+            // Skip invalid locally saved products.
+          }
+        }
+      }
+
+      final orders = data['orders'];
+      if (orders is List) {
+        for (final rawOrder in orders) {
+          try {
+            _orders.add(_orderFromJson(rawOrder));
+          } catch (_) {
+            // Skip outdated or corrupted records.
+          }
+        }
+      }
+    } catch (_) {
+      // A damaged local cache should never prevent startup.
+    }
+  }
+
+  void _notifyAndPersist() {
+    _persist();
+    notifyListeners();
   }
 
   String displayCartReceipt() {

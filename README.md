@@ -17,7 +17,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 | Profile | Demo name/email, edit display name, theme switch, wishlist/orders links |
 | Navigation | Side drawer, direct bag access, route handling |
 
-**Persistence:** This is an in-memory prototype. Cart, favorites, orders, theme and demo profile reset on a full restart or browser refresh. Hot reload retains state.
+**Persistence:** Shopping bag, favorites, demo orders and light/dark theme survive browser refresh via local `shared_preferences` storage. The demo user session resets. No credit-card data is stored.
 
 **Sample offer:** Use `WELCOME10` in checkout for a 10% demo discount. No money changes hands.
 
@@ -30,6 +30,7 @@ The existing [demo GIF](demo.gif) was recorded before the NOVA redesign and may 
 - Flutter / Dart — cross-platform UI
 - Material Design 3 — styling and accessible controls
 - Provider — reactive store, user and theme state
+- shared_preferences — local demo store persistence
 - intl — order dates and receipts
 - flutter_test — cart, favorites and order-state tests
 
@@ -87,7 +88,7 @@ test/
 
 ## Roadmap
 
-- [ ] Persist cart, wishlist, and orders across restarts
+- [x] Persist cart, wishlist, and orders across restarts
 - [ ] Firebase Authentication or another real identity provider
 - [ ] Backend/database for products and orders
 - [ ] Real payment integration using a provider-hosted checkout

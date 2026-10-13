@@ -156,7 +156,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 25),
               Center(
                 child: Text(
-                  'NOVA is a portfolio demo. Favorites and orders stay in memory until restart.',
+                  'NOVA demo · Favorites, bag, orders and theme are saved on this device.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: muted, fontSize: 12),
                 ),

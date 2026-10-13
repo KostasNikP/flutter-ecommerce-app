@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/login_or_regidter.dart';
 import 'package:shop_app/auth/models/shop.dart';
@@ -12,12 +13,14 @@ import 'package:shop_app/auth/pages/profile_page.dart';
 import 'package:shop_app/auth/pages/shop_page.dart';
 import 'package:shop_app/auth/themes/theme_provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => Shop()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => Shop(preferences: prefs)),
+        ChangeNotifierProvider(create: (_) => ThemeProvider(preferences: prefs)),
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const MyApp(),
