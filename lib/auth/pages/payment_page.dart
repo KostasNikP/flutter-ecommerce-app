@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/shop.dart';
 import 'package:shop_app/auth/models/user_provider.dart';
-import 'package:shop_app/auth/pages/Delivery_Progress_Page.dart';
+import 'package:shop_app/auth/pages/delivery_progress_page.dart';
 import 'package:shop_app/auth/themes/app_palette.dart';
 
 class PaymentPage extends StatefulWidget {

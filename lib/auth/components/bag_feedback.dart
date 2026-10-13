@@ -38,7 +38,7 @@ class BagFeedback {
                           color: AppPalette.mint, size: 20),
                       const SizedBox(width: 9),
                       Text(quantity == 1 ? 'Added to bag'
-                              : '${quantity} items added',
+                              : '$quantity items added',
                           style: const TextStyle(color: Colors.white,
                               fontSize: 13, fontWeight: FontWeight.w700)),
                     ],

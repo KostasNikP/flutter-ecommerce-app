@@ -7,8 +7,7 @@ import 'package:shop_app/auth/themes/app_palette.dart';
 /// Entry choices operate entirely within a local demo session.
 /// None of these buttons perform real email, Google, or Apple authentication.
 class LoginPage extends StatefulWidget {
-  final VoidCallback onTap;
-  const LoginPage({super.key, required this.onTap});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();

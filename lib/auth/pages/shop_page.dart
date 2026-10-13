@@ -451,7 +451,7 @@ class _ShopPageState extends State<ShopPage> {
                 const SizedBox(height: 14),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 420),
-                  child: Text(
+                  child: const Text(
                     'Discover phones, accessories and everyday essentials — all in one place.',
                     style: TextStyle(
                       color: Color(0xFFC2CBD5),

@@ -7,7 +7,7 @@ import 'package:shop_app/auth/pages/orders_page.dart';
 void main() {
   for (final width in <double>[280, 320, 360, 440, 760]) {
     testWidgets(
-      'order card fits ' + width.toInt().toString() + 'px and formats total',
+      'order card fits ${width.toInt()}px and formats total',
       (tester) async {
         tester.view.physicalSize = Size(width, 720);
         tester.view.devicePixelRatio = 1;

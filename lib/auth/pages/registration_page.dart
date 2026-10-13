@@ -5,8 +5,7 @@ import 'package:shop_app/auth/models/user_provider.dart';
 import 'package:shop_app/auth/themes/app_palette.dart';
 
 class RegistrationPage extends StatefulWidget {
-  final VoidCallback onTap;
-  const RegistrationPage({super.key, required this.onTap});
+  const RegistrationPage({super.key});
 
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();

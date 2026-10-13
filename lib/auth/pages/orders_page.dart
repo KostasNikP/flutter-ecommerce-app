@@ -86,7 +86,7 @@ class _OrderCard extends StatelessWidget {
     ).format(order.total);
     final countLabel = order.itemCount == 1
         ? '1 item'
-        : order.itemCount.toString() + ' items';
+        : '${order.itemCount} items';
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -168,7 +168,7 @@ class _OrderCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
               ],
-              Text(countLabel + '  ·  Order #' + order.shortId,
+              Text('$countLabel  ·  Order #${order.shortId}',
                   maxLines: 2,
                   style: TextStyle(color: muted, fontSize: 13)),
               const SizedBox(height: 16),

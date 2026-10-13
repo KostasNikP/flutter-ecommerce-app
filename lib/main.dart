@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/auth/login_or_regidter.dart';
 import 'package:shop_app/auth/models/shop.dart';
 import 'package:shop_app/auth/models/user_provider.dart';
-import 'package:shop_app/auth/pages/Registration_Page.dart';
+import 'package:shop_app/auth/pages/registration_page.dart';
 import 'package:shop_app/auth/pages/cart_page.dart';
 import 'package:shop_app/auth/pages/favorites_page.dart';
 import 'package:shop_app/auth/pages/login_page.dart';
@@ -39,9 +38,9 @@ class MyApp extends StatelessWidget {
       theme: context.watch<ThemeProvider>().themeData,
       initialRoute: '/',
       routes: {
-        '/': (_) => const LoginOrRegiState(),
-        '/login_page': (_) => LoginPage(onTap: () {}),
-        '/registration_page': (_) => RegistrationPage(onTap: () {}),
+        '/': (_) => const LoginPage(),
+        '/login_page': (_) => const LoginPage(),
+        '/registration_page': (_) => const RegistrationPage(),
         '/shop_page': (_) => const ShopPage(),
         '/cart_page': (_) => const CartPage(),
         '/favorites_page': (_) => const FavoritesPage(),

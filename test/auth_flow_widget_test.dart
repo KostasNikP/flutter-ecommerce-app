@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/user_provider.dart';
-import 'package:shop_app/auth/pages/Registration_Page.dart';
+import 'package:shop_app/auth/pages/registration_page.dart';
 import 'package:shop_app/auth/pages/login_page.dart';
 import 'package:shop_app/auth/themes/dark_mode.dart';
 
@@ -18,12 +18,12 @@ void main() {
         value: user,
         child: MaterialApp(
           theme: darkMode,
-          home: LoginPage(onTap: () {}),
+          home: const LoginPage(),
           routes: {
             '/shop_page': (_) => const Scaffold(
                   body: Center(child: Text('SHOP_READY')),
                 ),
-            '/registration_page': (_) => RegistrationPage(onTap: () {}),
+            '/registration_page': (_) => const RegistrationPage(),
           },
         ),
       ),
