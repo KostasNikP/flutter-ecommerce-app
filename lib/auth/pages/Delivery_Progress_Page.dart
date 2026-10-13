@@ -1,5 +1,4 @@
 import 'package:shop_app/auth/components/my_receipt.dart';
-import 'package:shop_app/auth/pages/shop_page.dart';
 import 'package:flutter/material.dart';
 
 class DeliveryProgressPage extends StatelessWidget {
@@ -21,12 +20,7 @@ class DeliveryProgressPage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ShopPage(),
-                ),
-              );
+              Navigator.of(context).pushNamedAndRemoveUntil('/shop_page', (route) => false);
             },
             child: const Text('Επιστροφή στο Κατάστημα'),
           ),
