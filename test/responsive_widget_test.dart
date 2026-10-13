@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/auth/components/receipt_card.dart';
 import 'package:shop_app/auth/models/shop.dart';
 import 'package:shop_app/auth/pages/cart_page.dart';
-import 'package:shop_app/auth/components/product_gallery_view.dart';
+import 'package:shop_app/auth/components/product_artwork.dart';
 
 void main() {
   Future<void> usePhoneSize(WidgetTester tester) async {
@@ -56,28 +56,24 @@ void main() {
     expect(find.text('Copy receipt'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
-  testWidgets('gallery shows thumbnails and supports swiping on phone',
+  testWidgets('phone product art renders without photo widgets',
       (tester) async {
     await usePhoneSize(tester);
     final product = Shop().shop.first;
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: ListView(
-            children: [
-              ProductGalleryView(product: product),
-            ],
+          body: SizedBox(
+            width: 190,
+            height: 220,
+            child: ProductArtwork(product: product),
           ),
         ),
       ),
     );
     await tester.pump();
-    expect(find.text('1 / 2'), findsOneWidget);
-    expect(find.byType(PageView), findsOneWidget);
-    await tester.drag(find.byType(PageView), const Offset(-300, 0));
-    await tester.pumpAndSettle();
-    expect(find.text('2 / 2'), findsOneWidget);
+    expect(find.byType(ProductArtwork), findsOneWidget);
+    expect(find.byType(Image), findsNothing);
     expect(tester.takeException(), isNull);
   });
-
 }

@@ -15,7 +15,6 @@ class MyProductTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final shop = context.watch<Shop>();
     final isSaved = shop.isFavorite(product.id);
-    final dark = AppPalette.isDark(context);
     final ink = AppPalette.foreground(context);
     final muted = AppPalette.subdued(context);
     final badge = product.category == 'discount'
@@ -46,12 +45,9 @@ class MyProductTile extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: double.infinity,
-                      padding: const EdgeInsets.all(20),
+                      clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: dark
-                            ? const Color(0xFF2A3043)
-                            : const Color(0xFFF0F1F7),
                       ),
                       child: ProductArtwork(product: product),
                     ),

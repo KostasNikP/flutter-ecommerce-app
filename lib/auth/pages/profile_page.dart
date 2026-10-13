@@ -148,7 +148,7 @@ class ProfilePage extends StatelessWidget {
                       ? Icons.dark_mode_rounded
                       : Icons.light_mode_outlined),
                   title: const Text('Dark mode'),
-                  subtitle: const Text('Customize the appearance'),
+                  subtitle: const Text('Each new session starts in dark mode'),
                   value: theme.isDarkMode,
                   onChanged: (_) => context.read<ThemeProvider>().toggleTheme(),
                 ),
@@ -156,7 +156,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 25),
               Center(
                 child: Text(
-                  'Demo store · Favorites, bag, orders and theme are saved on this device.',
+                  'Demo store · Favorites, bag and orders stay saved. The theme starts dark each session.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: muted, fontSize: 12),
                 ),

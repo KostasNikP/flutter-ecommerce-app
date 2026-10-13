@@ -1,79 +1,114 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/auth/models/product.dart';
-import 'package:shop_app/auth/models/product_gallery.dart';
 import 'package:shop_app/auth/themes/app_palette.dart';
 
+/// A unified, locally rendered visual for each product; no external photos.
 class ProductArtwork extends StatelessWidget {
   final Product product;
-  final String? source;
-  const ProductArtwork({super.key, required this.product, this.source});
+  const ProductArtwork({super.key, required this.product});
 
-  static List<String> sourcesFor(Product product) =>
-      product.imagePaths.isNotEmpty
-          ? product.imagePaths
-          : ProductGallery.forId(product.id);
+  static IconData iconFor(int id) {
+    switch (id) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        return Icons.smartphone_rounded;
+      case 6:
+        return Icons.headphones_rounded;
+      case 7:
+        return Icons.watch_rounded;
+      case 8:
+        return Icons.tablet_mac_rounded;
+      case 9:
+        return Icons.laptop_mac_rounded;
+      case 10:
+        return Icons.tv_rounded;
+      case 11:
+        return Icons.bolt_rounded;
+      case 12:
+        return Icons.edit_rounded;
+      default:
+        return Icons.devices_other_rounded;
+    }
+  }
 
-  static String urlFor(String source) {
-    final filename = source.substring('commons:'.length).split('#').first;
-    return 'https://commons.wikimedia.org/wiki/Special:FilePath/'
-        '${Uri.encodeComponent(filename)}?width=800';
+  static Color colorFor(int id) {
+    switch (id) {
+      case 6: return const Color(0xFF91E1D1);
+      case 7: return const Color(0xFFA2B8FF);
+      case 8: return const Color(0xFFB9A4FF);
+      case 9: return const Color(0xFF8BC8F2);
+      case 10: return const Color(0xFFAAA5F9);
+      case 11: return const Color(0xFFCDFA86);
+      case 12: return const Color(0xFFFFC49A);
+      default: return const Color(0xFFB9A4FF);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final sources = sourcesFor(product);
-    final selected = source ?? (sources.isEmpty ? '' : sources.first);
-    if (selected.startsWith('asset:')) {
-      return Image.asset(selected.substring(6), fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => _fallback());
-    }
-    if (selected.startsWith('commons:')) {
-      return Image.network(
-        urlFor(selected),
-        fit: selected.endsWith('#detail') ? BoxFit.cover : BoxFit.contain,
-        alignment: Alignment.center,
-        filterQuality: FilterQuality.medium,
-        webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
-        semanticLabel: product.name + ' photograph',
-        errorBuilder: (_, __, ___) => _localFallback(),
-        loadingBuilder: (context, child, progress) =>
-            progress == null ? child : _localFallback(),
-      );
-    }
-    return _localFallback();
-  }
+    final color = colorFor(product.id);
+    final isDark = AppPalette.isDark(context);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final shortest = constraints.biggest.shortestSide;
+        final diameter = (shortest * 0.73).clamp(38.0, 240.0).toDouble();
+        final iconSize = (shortest * 0.43).clamp(24.0, 125.0).toDouble();
 
-  Widget _localFallback() {
-    if (product.id <= 5) {
-      return Image.asset(product.imagePath, fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => _fallback());
-    }
-    return _fallback();
+        return Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: isDark
+                  ? const [Color(0xFF292C44), Color(0xFF181B2D)]
+                  : const [Color(0xFFF0F0FA), Color(0xFFE9EBF6)],
+            ),
+          ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Positioned(
+                top: -shortest * 0.3,
+                right: -shortest * 0.3,
+                child: Container(
+                  width: shortest * 0.86,
+                  height: shortest * 0.86,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: color.withValues(alpha: 0.18),
+                    ),
+                  ),
+                ),
+              ),
+              Center(
+                child: Container(
+                  width: diameter,
+                  height: diameter,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: color.withValues(alpha: isDark ? 0.12 : 0.20),
+                    border: Border.all(
+                      color: color.withValues(alpha: 0.24),
+                    ),
+                  ),
+                  child: Icon(
+                    iconFor(product.id),
+                    size: iconSize,
+                    color: color,
+                    semanticLabel: product.name,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
-
-  IconData get _icon {
-    switch (product.id) {
-      case 6: return Icons.headphones_rounded;
-      case 7: return Icons.watch_rounded;
-      case 8: return Icons.tablet_mac_rounded;
-      case 9: return Icons.laptop_mac_rounded;
-      case 10: return Icons.tv_rounded;
-      case 11: return Icons.bolt_rounded;
-      case 12: return Icons.edit_rounded;
-      default: return Icons.devices_other_rounded;
-    }
-  }
-
-  Widget _fallback() => LayoutBuilder(builder: (_, constraints) {
-    final size = constraints.biggest.shortestSide;
-    return Center(child: Container(
-      width: (size * 0.64).clamp(40.0, 190.0).toDouble(),
-      height: (size * 0.64).clamp(40.0, 190.0).toDouble(),
-      decoration: BoxDecoration(shape: BoxShape.circle,
-          color: AppPalette.accent.withValues(alpha: 0.12)),
-      child: Icon(_icon,
-          size: (size * 0.34).clamp(28.0, 98.0).toDouble(),
-          color: AppPalette.accent),
-    ));
-  });
 }

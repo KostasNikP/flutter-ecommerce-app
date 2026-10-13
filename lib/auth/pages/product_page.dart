@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/auth/components/product_gallery_view.dart';
+import 'package:shop_app/auth/components/product_artwork.dart';
 import 'package:shop_app/auth/components/bag_feedback.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/product.dart';
@@ -54,9 +54,15 @@ class _ProductPageState extends State<ProductPage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           final wide = constraints.maxWidth > 760;
-          final image = SizedBox(
+          final image = Container(
             width: wide ? 470 : double.infinity,
-            child: ProductGalleryView(product: product, wide: wide),
+            height: wide ? 470 : 320,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppPalette.panel(context),
+              borderRadius: BorderRadius.circular(28),
+            ),
+            child: ProductArtwork(product: product),
           );
           final details = Column(
             crossAxisAlignment: CrossAxisAlignment.start,

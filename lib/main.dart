@@ -20,7 +20,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Shop(preferences: prefs)),
-        ChangeNotifierProvider(create: (_) => ThemeProvider(preferences: prefs)),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const MyApp(),

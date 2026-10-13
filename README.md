@@ -9,7 +9,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 | Area | What works |
 | --- | --- |
 | Discover | Responsive product grid, category chips, live product search |
-| Products | Swipeable 2–3 view product galleries, zoom, thumbnails and quantity selection |
+| Products | Consistent device illustrations, product details and quantity selection |
 | Wishlist | Save/remove favorites, dedicated favorites screen |
 | Bag | Add items, update quantities, remove items, clear cart, live totals |
 | Checkout | Name/address validation, simulated payment methods, WELCOME10 promo |
@@ -17,7 +17,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 | Profile | Demo name/email, edit display name, theme switch, wishlist/orders links |
 | Navigation | Side drawer, direct bag access, route handling |
 
-**Persistence:** Shopping bag, favorites, demo orders and light/dark theme survive browser refresh via local `shared_preferences` storage. The demo user session resets. No credit-card data is stored.
+**Persistence:** Shopping bag, favorites and demo orders survive browser refresh using local `shared_preferences`. The app always starts in dark mode; visitors can switch to light during a session. The demo user session resets. No credit-card data is stored.
 
 **Sample offer:** Use `WELCOME10` in checkout for a 10% demo discount. No money changes hands.
 
@@ -25,7 +25,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 
 The existing [demo GIF](demo.gif) was recorded before the current redesign and may show an earlier interface.
 
-Product-specific photos for the seven accessories/devices are loaded from Wikimedia Commons with [credits and license information](IMAGE_CREDITS.md), and fall back to illustrations offline. Existing bundled iPhone images remain local.
+The interface deliberately avoids product photos in favor of consistent, device-specific vector icons drawn locally; no image downloads are required.
 
 ## Tech stack
 
@@ -64,15 +64,15 @@ Or use an Android emulator:
 flutter run
 ```
 
-## Product gallery
+## Product presentation
 
-Each product has a swipeable 2–3 view gallery, photo thumbnails and an image-zoom dialog. On models where only one verified photograph is available, the additional slide is explicitly a close-up crop of that same photograph. The shop grid and bag use the primary image. Adding to the bag displays a small floating toast above mobile navigation instead of a large snackbar.
+The photo carousel was removed in favor of an image-free catalog with cohesive illustrated device motifs. The same visual language is used on cards, product details and the bag. Adding to the bag shows a small floating confirmation instead of a large snackbar.
 
 ## Mobile experience
 
 - Two-column grids on most phone widths, compact app bar and bottom navigation
 - Flexible quantity controls and scrollable, itemized order receipts
-- Product-specific photos with illustrated offline fallbacks
+- Photo-free product motifs available without network access
 
 ## Quality checks
 
@@ -104,7 +104,7 @@ test/
 - [ ] Firebase Authentication or another real identity provider
 - [ ] Backend/database for products and orders
 - [ ] Real payment integration using a provider-hosted checkout
-- [ ] Better product photographs and accessibility testing
+- [ ] Accessibility and screen-reader testing
 - [ ] Additional widget and integration tests
 
 ---

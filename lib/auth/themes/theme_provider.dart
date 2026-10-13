@@ -1,31 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/auth/themes/dark_mode.dart';
 import 'package:shop_app/auth/themes/light_mode.dart';
 
+/// Always begin a new app session in dark mode.
+/// The user can switch to light mode temporarily from Profile.
 class ThemeProvider with ChangeNotifier {
-  ThemeProvider({SharedPreferences? preferences})
-      : _preferences = preferences {
-    _themeData = preferences?.getBool(_storageKey) == true
-        ? darkMode
-        : lightMode;
-  }
-
-  static const _storageKey = 'nova.darkMode.v1';
-  final SharedPreferences? _preferences;
-  ThemeData _themeData = lightMode;
+  ThemeData _themeData = darkMode;
 
   ThemeData get themeData => _themeData;
-  bool get isDarkMode => _themeData == darkMode;
+  bool get isDarkMode => identical(_themeData, darkMode);
 
-  set themeData(ThemeData themeData) {
-    _themeData = themeData;
-    final preferences = _preferences;
-    if (preferences != null) {
-      unawaited(preferences.setBool(_storageKey, isDarkMode));
-    }
+  set themeData(ThemeData nextTheme) {
+    if (identical(_themeData, nextTheme)) return;
+    _themeData = nextTheme;
     notifyListeners();
   }
 
