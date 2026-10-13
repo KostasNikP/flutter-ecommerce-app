@@ -1,4 +1,5 @@
 import 'package:shop_app/auth/models/product.dart';
+import 'package:shop_app/auth/models/shop_order.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -108,29 +109,36 @@ class Shop extends ChangeNotifier {
     ),
   ];
 
-  // User cart
+  // In-memory demo state (reset on application restart).
   final List<Product> _cart = [];
+  final Set<int> _favorites = <int>{};
+  final List<ShopOrder> _orders = [];
 
-  // Get product list
-  List<Product> get shop => _shop;
+  List<Product> get shop => List.unmodifiable(_shop);
+  List<Product> get cart => List.unmodifiable(_cart);
+  List<ShopOrder> get orders => List.unmodifiable(_orders);
+  List<Product> get favorites =>
+      _shop.where((product) => _favorites.contains(product.id)).toList();
 
-  // Get products by category
   List<Product> getByCategory(String category) =>
-      _shop.where((p) => p.category == category).toList();
+      _shop.where((product) => product.category == category).toList();
 
-  // Get user cart
-  List<Product> get cart => _cart;
+  bool isFavorite(int productId) => _favorites.contains(productId);
 
-  // Add item to cart
+  void toggleFavorite(int productId) {
+    if (!_favorites.add(productId)) {
+      _favorites.remove(productId);
+    }
+    notifyListeners();
+  }
+
   void addToCart(int id, Product product) {
-    final existingIndex =
-        _cart.indexWhere((e) => e.id == id && e.name == product.name);
-
-    if (existingIndex != -1) {
-      _cart[existingIndex].quantity++;
+    final index = _cart.indexWhere((item) => item.id == id);
+    if (index >= 0) {
+      _cart[index].quantity++;
     } else {
       _cart.add(Product(
-        id: id,
+        id: product.id,
         name: product.name,
         price: product.price,
         description: product.description,
@@ -141,56 +149,86 @@ class Shop extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Remove item from cart
-  void removeFromCart(Product item) {
-    final cartIndex =
-        _cart.indexWhere((e) => e.name == item.name && e.id == item.id);
-    if (cartIndex != -1) {
-      if (_cart[cartIndex].quantity > 1) {
-        _cart[cartIndex].quantity--;
-      } else {
-        _cart.removeAt(cartIndex);
-      }
-      notifyListeners();
+  void removeFromCart(Product product) {
+    final index = _cart.indexWhere((item) => item.id == product.id);
+    if (index < 0) return;
+    if (_cart[index].quantity > 1) {
+      _cart[index].quantity--;
+    } else {
+      _cart.removeAt(index);
     }
+    notifyListeners();
   }
 
-  // Get total price
-  double getTotalPrice() {
-    return _cart.fold(0.0, (sum, p) => sum + p.price * p.quantity);
+  void removeProductCompletely(int productId) {
+    _cart.removeWhere((item) => item.id == productId);
+    notifyListeners();
   }
 
-  // Get total item count
-  int getTotalItemCount() {
-    return _cart.fold(0, (sum, p) => sum + p.quantity);
-  }
+  double getTotalPrice() =>
+      _cart.fold(0.0, (sum, item) => sum + item.price * item.quantity);
 
-  // Clear cart
+  int getTotalItemCount() =>
+      _cart.fold(0, (sum, item) => sum + item.quantity);
+
   void clearCart() {
     _cart.clear();
     notifyListeners();
   }
 
-  // Receipt
-  String displayCartReceipt() {
-    final receipt = StringBuffer();
-    receipt.writeln("Here's your receipt.");
-    receipt.writeln();
-    receipt.writeln(DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now()));
-    receipt.writeln();
-    receipt.writeln("───────────────────");
-
-    for (final product in _cart) {
-      receipt.writeln(
-          "${product.quantity}x ${product.name} — ${_formatPrice(product.price)}");
+  /// Creates a local demo order; there is no payment gateway or backend.
+  ShopOrder placeDemoOrder({
+    required String customerName,
+    required String deliveryAddress,
+    required String paymentMethod,
+    String promoCode = '',
+  }) {
+    if (_cart.isEmpty) {
+      throw StateError('Cannot check out with an empty cart.');
     }
-
-    receipt.writeln("───────────────────");
-    receipt.writeln("Total Items: ${getTotalItemCount()}");
-    receipt.writeln("Total Price: ${_formatPrice(getTotalPrice())}");
-
-    return receipt.toString();
+    final subtotal = getTotalPrice();
+    final discount = promoCode.trim().toUpperCase() == 'WELCOME10'
+        ? subtotal * 0.10
+        : 0.0;
+    final now = DateTime.now();
+    final order = ShopOrder(
+      id: now.microsecondsSinceEpoch.toString(),
+      createdAt: now,
+      items: _cart
+          .map((product) => Product(
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                description: product.description,
+                imagePath: product.imagePath,
+                category: product.category,
+                quantity: product.quantity,
+              ))
+          .toList(growable: false),
+      subtotal: subtotal,
+      discount: discount,
+      total: subtotal - discount,
+      customerName: customerName.trim(),
+      deliveryAddress: deliveryAddress.trim(),
+      paymentMethod: paymentMethod,
+    );
+    _orders.insert(0, order);
+    _cart.clear();
+    notifyListeners();
+    return order;
   }
 
-  String _formatPrice(double price) => "\$${price.toStringAsFixed(2)}";
+  String displayCartReceipt() {
+    final receipt = StringBuffer()
+      ..writeln("Here's your cart summary.")
+      ..writeln(DateFormat('dd MMM yyyy, HH:mm').format(DateTime.now()))
+      ..writeln();
+    for (final product in _cart) {
+      receipt.writeln(
+        '${product.quantity}x ${product.name} — \$${(product.price * product.quantity).toStringAsFixed(2)}',
+      );
+    }
+    receipt.writeln('Total: \$${getTotalPrice().toStringAsFixed(2)}');
+    return receipt.toString();
+  }
 }
