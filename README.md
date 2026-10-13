@@ -1,6 +1,6 @@
 # 🛍️ ShopApp — Flutter E-Commerce App
 
-A fully functional mobile e-commerce application built with **Flutter**, featuring user authentication, product browsing, cart management, and a credit card payment flow.
+A portfolio demo mobile e-commerce application built with **Flutter**, featuring user authentication, product browsing, cart management, and a simulated credit card checkout flow (no real payment processing).
 
 ---
 
@@ -31,10 +31,10 @@ A fully functional mobile e-commerce application built with **Flutter**, featuri
 - Clear cart with confirmation dialog
 - Animated receipt display on checkout
 
-### 💳 Payment
+### 💳 Demo Payment
 - Interactive animated credit card widget (flip animation on CVV focus)
-- Credit card form with real-time card preview
-- Order confirmation dialog
+- Credit card form with real-time card preview; demo only, do not enter real card information
+- Order confirmation dialog with masked card number and no CVV display
 - Delivery Progress page post-payment
 
 ### 🌙 Profile & Settings
@@ -104,8 +104,8 @@ lib/
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/KostasNikP/app.git
-cd app
+git clone https://github.com/KostasNikP/flutter-ecommerce-app.git
+cd flutter-ecommerce-app
 
 # 2. Install dependencies
 flutter pub get
