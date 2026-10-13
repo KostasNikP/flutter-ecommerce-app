@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/auth/components/product_artwork.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/product.dart';
 import 'package:shop_app/auth/models/shop.dart';
@@ -31,12 +32,7 @@ class MyCartTile extends StatelessWidget {
                   : const Color(0xFFF0F1F7),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Image.asset(
-              product.imagePath,
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) =>
-                  const Icon(Icons.devices_other_rounded),
-            ),
+            child: ProductArtwork(product: product),
           ),
           const SizedBox(width: 15),
           Expanded(
