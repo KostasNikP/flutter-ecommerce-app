@@ -1,30 +1,54 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:shop_app/main.dart';
+import 'package:shop_app/auth/models/shop.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('Shop cart', () {
+    late Shop shop;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    setUp(() {
+      shop = Shop();
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('starts empty', () {
+      expect(shop.cart, isEmpty);
+      expect(shop.getTotalPrice(), 0);
+      expect(shop.getTotalItemCount(), 0);
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('adding the same product updates quantity and total', () {
+      final product = shop.shop.first;
+      shop.addToCart(product.id, product);
+      shop.addToCart(product.id, product);
+
+      expect(shop.cart.length, 1);
+      expect(shop.getTotalItemCount(), 2);
+      expect(shop.getTotalPrice(), closeTo(product.price * 2, 0.001));
+    });
+
+    test('removing items reduces quantity then removes product', () {
+      final product = shop.shop.first;
+      shop.addToCart(product.id, product);
+      shop.addToCart(product.id, product);
+      shop.removeFromCart(shop.cart.first);
+
+      expect(shop.getTotalItemCount(), 1);
+      shop.removeFromCart(shop.cart.first);
+      expect(shop.cart, isEmpty);
+    });
+
+    test('clearing the cart resets totals', () {
+      final product = shop.shop.first;
+      shop.addToCart(product.id, product);
+      shop.clearCart();
+
+      expect(shop.cart, isEmpty);
+      expect(shop.getTotalPrice(), 0);
+    });
+
+    test('category filtering uses product category', () {
+      final trending = shop.getByCategory('trend');
+      expect(trending, isNotEmpty);
+      expect(trending.every((product) => product.category == 'trend'), isTrue);
+    });
   });
 }
