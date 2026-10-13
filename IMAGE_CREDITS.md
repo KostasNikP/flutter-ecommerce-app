@@ -14,12 +14,12 @@ are supplied below; the photographs are displayed unmodified within product card
 | Product | Photographer / uploader | License | Wikimedia Commons source |
 | --- | --- | --- | --- |
 | AirPods Pro (2nd Gen) | Hajoon0102 | CC BY-SA 4.0 | [File](https://commons.wikimedia.org/wiki/File:AirPods_Pro_(2nd_generation).jpg) |
-| Apple Watch SE (2nd Gen) | See file author and license page | See original page | [File](https://commons.wikimedia.org/wiki/File:Watch_SE_(2nd_generation).jpg) |
+| Apple Watch SE (2nd Gen) | 茅野ふたば | CC BY-SA 4.0 | [File](https://commons.wikimedia.org/wiki/File:Watch_SE_(2nd_generation).jpg) |
 | iPad Air (5th Gen) | Captainmorlypogi1959 | CC BY-SA 4.0 | [File](https://commons.wikimedia.org/wiki/File:IPad_Air_5th_Generation_2024.jpg) |
 | MacBook Air M2 | KKPCW (Kyu3) | CC BY-SA 4.0 | [File](https://commons.wikimedia.org/wiki/File:M2_Macbook_Air_Starlight_model.jpg) |
 | Apple TV 4K (3rd Gen) | Dillan Payne | CC BY-SA 4.0 | [File](https://commons.wikimedia.org/wiki/File:Apple_TV_4K_(3rd_Generation,_2022)_with_Siri_Remote_(cropped).jpg) |
 | MagSafe Charger | James Tamim | CC BY-SA 4.0 | [File](https://commons.wikimedia.org/wiki/File:MagSafe_and_USB-C_Cable_Charger_for_iPhone.jpg) |
-| Apple Pencil (2nd Gen) | See file author and license page | See original page | [File](https://commons.wikimedia.org/wiki/File:Apple_Pencil_Second_Generation_-_2.jpg) |
+| Apple Pencil (2nd Gen) | KKPCW | CC BY-SA 4.0 | [File](https://commons.wikimedia.org/wiki/File:Apple_Pencil_Second_Generation_-_2.jpg) |
 
 License for CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
 

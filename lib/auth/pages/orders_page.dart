@@ -82,7 +82,7 @@ class OrdersPage extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '\$' + order.total.toStringAsFixed(2),
+                                '\${order.total.toStringAsFixed(2)}',
                                 style: const TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.w800),

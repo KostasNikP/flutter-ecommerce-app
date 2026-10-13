@@ -34,7 +34,7 @@ class DeliveryProgressPage extends StatelessWidget {
                   style: TextStyle(color: ink, fontSize: 30,
                       fontWeight: FontWeight.w900)),
               const SizedBox(height: 8),
-              Text('Thanks, ' + order.customerName + '! Your demo order is confirmed.',
+              Text('Thanks, ${order.customerName}! Your demo order is confirmed.',
                   textAlign: TextAlign.center, style: TextStyle(color: muted)),
               const SizedBox(height: 26),
               ReceiptCard(order: order),

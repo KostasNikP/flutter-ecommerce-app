@@ -35,27 +35,30 @@ class ShopOrder {
   String get receipt {
     final lines = StringBuffer()
       ..writeln('TECH STORE · DEMO RECEIPT')
-      ..writeln('Order #'+shortId)
-      ..writeln('Date: '+dateLabel)
+      ..writeln('Order #$shortId')
+      ..writeln('Date: $dateLabel')
       ..writeln('Status: Demo confirmed')
       ..writeln('--------------------------------');
     for (final item in items) {
       lines.writeln(item.name);
-      lines.writeln(item.quantity.toString()+' x '+r'$'+item.price.toStringAsFixed(2)
-          +' = '+r'$'+(item.quantity * item.price).toStringAsFixed(2));
-    }
-    lines.writeln('--------------------------------');
-    lines.writeln('Subtotal: '+r'$'+subtotal.toStringAsFixed(2));
-    if (discount > 0) {
-      if (promoCode.isNotEmpty) lines.writeln('Promo code: '+promoCode);
-      lines.writeln('Discount: -'+r'$'+discount.toStringAsFixed(2));
+      lines.writeln(
+        '${item.quantity} × \$${item.price.toStringAsFixed(2)}'
+        ' = \$${(item.quantity * item.price).toStringAsFixed(2)}',
+      );
     }
     lines
-      ..writeln('Delivery fee (demo): '+r'$'+'0.00')
-      ..writeln('TOTAL: '+r'$'+total.toStringAsFixed(2))
-      ..writeln('Customer: '+customerName)
-      ..writeln('Address (demo): '+deliveryAddress)
-      ..writeln('Payment method (demo): '+paymentMethod)
+      ..writeln('--------------------------------')
+      ..writeln('Subtotal: \$${subtotal.toStringAsFixed(2)}');
+    if (discount > 0) {
+      if (promoCode.isNotEmpty) lines.writeln('Promo code: $promoCode');
+      lines.writeln('Discount: -\$${discount.toStringAsFixed(2)}');
+    }
+    lines
+      ..writeln('Delivery fee (demo): \$0.00')
+      ..writeln('TOTAL: \$${total.toStringAsFixed(2)}')
+      ..writeln('Customer: $customerName')
+      ..writeln('Address (demo): $deliveryAddress')
+      ..writeln('Payment method (demo): $paymentMethod')
       ..writeln('Portfolio demo only. No payment or shipping.');
     return lines.toString();
   }
