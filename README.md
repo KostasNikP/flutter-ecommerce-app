@@ -1,5 +1,13 @@
 # Flutter E-Commerce
 
+## Demo
+
+![Flutter E-Commerce mobile demo](media/tech_store_portfolio_demo.gif)
+
+[Watch the full mobile demo (MP4)](media/tech_store_portfolio_demo.mp4)
+
+The walkthrough shows browsing the catalog, selecting products, managing the cart, completing a simulated checkout, and reviewing an order receipt.
+
 A responsive tech storefront built with Flutter, Dart, Material 3, and Provider. The project demonstrates a complete shopping flow on desktop and mobile.
 
 ## Features
@@ -31,7 +39,7 @@ Use flutter run to select a connected Android device or emulator.
     flutter test
     flutter build web --release
 
-Tests cover cart state, coupon totals, local storage, entry methods, and responsive layouts, including order history at narrow viewport widths. GitHub Actions performs the same checks on the pull request.
+Tests cover cart state, coupon totals, local storage, entry methods, and responsive layouts, including order history at narrow viewport widths. GitHub Actions verifies the pull request build. Run the commands above before committing updates.
 
 ## Project structure
 
