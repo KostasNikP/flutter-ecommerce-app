@@ -1,6 +1,8 @@
 import 'package:shop_app/auth/components/my_Button.dart';
 import 'package:shop_app/auth/pages/Delivery_Progress_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/auth/models/shop.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -20,7 +22,14 @@ class _PaymentPageState extends State<PaymentPage> {
 
   // Πληρωμή
   void userTappedPay() {
-    if (formKey.currentState!.validate()) {
+    if (!formKey.currentState!.validate()) return;
+    if (context.read<Shop>().cart.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Your cart is empty. Add an item before checkout.')),
+      );
+      return;
+    }
+    {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -35,7 +44,7 @@ class _PaymentPageState extends State<PaymentPage> {
             child: ListBody(
               children: [
                 Text(
-                  "Αριθμός Κάρτας: $cardNumber",
+                  "Αριθμός Κάρτας: **** ${cardNumber.replaceAll(' ', '').length >= 4 ? cardNumber.replaceAll(' ', '').substring(cardNumber.replaceAll(' ', '').length - 4) : '****'}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -52,23 +61,21 @@ class _PaymentPageState extends State<PaymentPage> {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-                Text(
-                  "CVV: $cvvCode",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
                 ),
               ],
             ),
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DeliveryProgressPage(cardHolderName: cardHolderName),
-                ),
-              ),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DeliveryProgressPage(cardHolderName: cardHolderName),
+                  ),
+                );
+              },
               child: Text(
                 "Ναι",
                 style: TextStyle(
