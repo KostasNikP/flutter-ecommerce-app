@@ -1,91 +1,91 @@
-import 'package:shop_app/auth/components/my_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/auth/models/user_provider.dart';
+import 'package:shop_app/auth/themes/app_palette.dart';
+
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
 
+  Widget _link(BuildContext context, IconData icon, String title,
+      String route) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      onTap: () {
+        Navigator.pop(context);
+        if (route != '/shop_page') {
+          Navigator.pushNamed(context, route);
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final color = AppPalette.foreground(context);
     return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(children: [
-            //drawer heard: logo
-          DrawerHeader(
-            child: Center(
-              child: Icon(
-                Icons.shopping_bag,
-               size:72,
-               color: Theme.of(context).colorScheme.inversePrimary
+      backgroundColor: AppPalette.panel(context),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 18, 14, 24),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      radius: 25,
+                      backgroundColor: AppPalette.accent,
+                      child: Icon(Icons.bolt_rounded,
+                          color: Colors.white, size: 30),
+                    ),
+                    const SizedBox(width: 13),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('NOVA.',
+                            style: TextStyle(
+                                color: color,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 22)),
+                        Text('Your tech store',
+                            style: TextStyle(
+                                color: AppPalette.subdued(context),
+                                fontSize: 12)),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
+              _link(context, Icons.storefront_rounded, 'Discover',
+                  '/shop_page'),
+              _link(context, Icons.favorite_border_rounded, 'Wishlist',
+                  '/favorites_page'),
+              _link(context, Icons.shopping_bag_outlined, 'Shopping bag',
+                  '/cart_page'),
+              _link(context, Icons.receipt_long_outlined, 'My orders',
+                  '/orders_page'),
+              _link(context, Icons.person_outline_rounded, 'Profile',
+                  '/profile_page'),
+              const Spacer(),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.logout_rounded),
+                title: const Text('Sign out'),
+                onTap: () {
+                  context.read<UserProvider>().resetUser();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/login_page', (_) => false);
+                },
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
-
-
-          const SizedBox(height: 25),
-
-          //shop title
-          MyListTile(
-            text: "Shop", 
-            icon: Icons.home,
-            textColor: Theme.of(context).colorScheme.inversePrimary,
-            onTap: () =>Navigator.pop(context)
-            ),
-
-
-          // cart title
-          MyListTile(
-            text: "Cart", 
-            icon: Icons.shopping_cart, 
-            textColor: Theme.of(context).colorScheme.inversePrimary,
-            onTap: (){
-              
-              //pop drawer firts
-              Navigator.pop(context);
-
-
-             // go to cart page
-             Navigator.pushNamed(context, '/cart_page');
-            },
-            ),
-
-            //profile
-          MyListTile(
-            text: "Profile", 
-            textColor: Theme.of(context).colorScheme.inversePrimary,
-            icon: Icons.person, 
-            onTap: () {
-              
-              //pop drawer firts
-              Navigator.pop(context);
-
-
-             // go to cart page
-             Navigator.pushNamed(context, '/profile_page');
-            },
-            ),
-
-
-
-          ],
         ),
-          
-
-          //exit shop title
-          Padding(
-            padding: const EdgeInsets.only(bottom: 25.0),
-            child: MyListTile(
-              text: "Exit", 
-              textColor: Theme.of(context).colorScheme.inversePrimary,
-              icon: Icons.logout, 
-              onTap: () =>Navigator.pushNamedAndRemoveUntil(
-                context, '/login_page', (route) => false)
-              ),
-          ),
-
-
-        ],
       ),
     );
   }
