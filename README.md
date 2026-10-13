@@ -13,7 +13,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 | Wishlist | Save/remove favorites, dedicated favorites screen |
 | Bag | Add items, update quantities, remove items, clear cart, live totals |
 | Checkout | Name/address validation, simulated payment methods, WELCOME10 promo |
-| Orders | Confirmation screen, order snapshots, receipt and demo order history |
+| Orders | Confirmation, itemized responsive receipts, copy to clipboard and order history |
 | Profile | Demo name/email, edit display name, theme switch, wishlist/orders links |
 | Navigation | Side drawer, direct bag access, route handling |
 
@@ -63,6 +63,12 @@ Or use an Android emulator:
 ```bash
 flutter run
 ```
+
+## Mobile experience
+
+- Two-column grids on most phone widths, compact app bar and bottom navigation
+- Flexible quantity controls and scrollable, itemized order receipts
+- Product-specific photos with illustrated offline fallbacks
 
 ## Quality checks
 

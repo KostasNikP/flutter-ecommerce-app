@@ -87,7 +87,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         fontWeight: FontWeight.w800,
                       )),
                   const SizedBox(height: 6),
-                  Text('Secure-feeling checkout, simulated for this demo.',
+                  Text('Complete your demo order in a few easy steps.',
                       style: TextStyle(color: muted)),
                   const SizedBox(height: 25),
                   Container(
@@ -120,7 +120,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           controller: _address,
                           maxLines: 2,
                           decoration: const InputDecoration(
-                              labelText: 'Demo delivery address',
+                              labelText: 'Sample delivery address',
                               prefixIcon: Icon(Icons.location_on_outlined)),
                           validator: (v) => v == null || v.trim().length < 6
                               ? 'Enter an address (at least 6 characters)'
@@ -218,7 +218,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   const SizedBox(height: 12),
                   Center(
                     child: Text(
-                      'Portfolio demo only · No real payment or shipping',
+                      'Portfolio demo · Avoid entering real personal information',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: muted, fontSize: 12),
                     ),

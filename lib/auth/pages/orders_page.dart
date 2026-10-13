@@ -3,26 +3,16 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/shop.dart';
 import 'package:shop_app/auth/models/shop_order.dart';
+import 'package:shop_app/auth/pages/order_receipt_page.dart';
 import 'package:shop_app/auth/themes/app_palette.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
 
   void _showReceipt(BuildContext context, ShopOrder order) {
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Demo receipt'),
-        content: SingleChildScrollView(
-          child: SelectableText(order.receipt),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-        ],
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => OrderReceiptPage(order: order)),
     );
   }
 
@@ -109,7 +99,7 @@ class OrdersPage extends StatelessWidget {
                           OutlinedButton.icon(
                             onPressed: () => _showReceipt(context, order),
                             icon: const Icon(Icons.receipt_long_rounded),
-                            label: const Text('View receipt'),
+                            label: const Text('View itemized receipt'),
                           ),
                         ],
                       ),
