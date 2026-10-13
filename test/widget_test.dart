@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/auth/themes/theme_provider.dart';
 import 'package:shop_app/auth/models/shop.dart';
+import 'package:shop_app/auth/models/product_gallery.dart';
+import 'package:shop_app/auth/components/product_artwork.dart';
 
 void main() {
   group('Shop cart', () {
@@ -142,6 +144,23 @@ void main() {
       theme.toggleTheme();
       await Future<void>.delayed(const Duration(milliseconds: 30));
       expect(ThemeProvider(preferences: prefs).isDarkMode, isTrue);
+    });
+  });
+
+  group('Product image galleries', () {
+    test('every catalog item has 2 or 3 curated views', () {
+      for (final product in Shop().shop) {
+        final gallery = ProductArtwork.sourcesFor(product);
+        expect(gallery.length, inInclusiveRange(2, 3),
+            reason: product.name);
+        expect(gallery, ProductGallery.forId(product.id));
+      }
+    });
+    test('image gallery is retained when added to cart', () {
+      final shop = Shop();
+      final item = shop.shop.first;
+      shop.addToCart(item.id, item);
+      expect(shop.cart.single.imagePaths, item.imagePaths);
     });
   });
 

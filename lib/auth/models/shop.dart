@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/auth/models/product.dart';
+import 'package:shop_app/auth/models/product_gallery.dart';
 import 'package:shop_app/auth/models/shop_order.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +25,7 @@ class Shop extends ChangeNotifier {
       price: 499.99,
       description: "A dependable everyday iPhone with a 6.1-inch Liquid Retina HD display, A13 Bionic chip, and dual 12MP cameras with Night mode and 4K video.",
       imagePath: 'photo/Iphone11.png',
+      imagePaths: ProductGallery.forId(1),
       category: 'trend',
     ),
     Product(
@@ -32,6 +34,7 @@ class Shop extends ChangeNotifier {
       price: 599.99,
       description: "A lightweight 5G-ready iPhone with a 6.1-inch Super Retina XDR OLED display, A14 Bionic performance, Ceramic Shield, and dual rear cameras.",
       imagePath: 'photo/Iphone12.png',
+      imagePaths: ProductGallery.forId(2),
       category: 'trend',
     ),
     Product(
@@ -40,6 +43,7 @@ class Shop extends ChangeNotifier {
       price: 699.99,
       description: "Enjoy sharp photos, a vibrant 6.1-inch OLED display, and efficient A15 Bionic performance. The dual-camera system includes sensor-shift stabilization.",
       imagePath: 'photo/Ipone13.png',
+      imagePaths: ProductGallery.forId(3),
       category: 'trend',
     ),
     Product(
@@ -48,6 +52,7 @@ class Shop extends ChangeNotifier {
       price: 799.99,
       description: "A polished 6.1-inch iPhone with an advanced dual-camera system, Photonic Engine, A15 Bionic chip, Crash Detection, and Emergency SOS via satellite where supported.",
       imagePath: 'photo/Ipone14.png',
+      imagePaths: ProductGallery.forId(4),
       category: 'trend',
     ),
 
@@ -58,6 +63,7 @@ class Shop extends ChangeNotifier {
       price: 849.99,
       description: "A 6.1-inch Super Retina XDR iPhone with Dynamic Island, a 48MP main camera, USB-C charging, and the A16 Bionic chip.",
       imagePath: 'photo/Iphone15.png',
+      imagePaths: ProductGallery.forId(5),
       category: 'discount',
     ),
     Product(
@@ -66,6 +72,7 @@ class Shop extends ChangeNotifier {
       price: 199.99,
       description: "Premium in-ear wireless earbuds with Active Noise Cancellation, Adaptive Transparency, personalized Spatial Audio, and a compact charging case.",
       imagePath: 'photo/photo1.jpg',
+      imagePaths: ProductGallery.forId(6),
       category: 'discount',
     ),
     Product(
@@ -74,6 +81,7 @@ class Shop extends ChangeNotifier {
       price: 249.99,
       description: "An everyday smartwatch for activity, heart-rate tracking, sleep insights, Crash Detection, and calls and messages when paired with a compatible iPhone.",
       imagePath: 'photo/photo1.jpg',
+      imagePaths: ProductGallery.forId(7),
       category: 'discount',
     ),
     Product(
@@ -82,6 +90,7 @@ class Shop extends ChangeNotifier {
       price: 599.99,
       description: "A versatile 10.9-inch tablet powered by Apple M1, with a Liquid Retina display, Touch ID, USB-C, and support for Apple Pencil (2nd generation).",
       imagePath: 'photo/photo1.jpg',
+      imagePaths: ProductGallery.forId(8),
       category: 'discount',
     ),
 
@@ -92,6 +101,7 @@ class Shop extends ChangeNotifier {
       price: 1099.99,
       description: "Thin and silent laptop featuring the Apple M2 chip, a 13.6-inch Liquid Retina display, MagSafe charging, and up to 18 hours of video playback.",
       imagePath: 'photo/photo1.jpg',
+      imagePaths: ProductGallery.forId(9),
       category: 'other',
     ),
     Product(
@@ -100,6 +110,7 @@ class Shop extends ChangeNotifier {
       price: 129.99,
       description: "Stream films and series in 4K HDR with Dolby Vision, HDR10+, and Dolby Atmos on supported systems. Includes the Siri Remote and A15 Bionic chip.",
       imagePath: 'photo/photo1.jpg',
+      imagePaths: ProductGallery.forId(10),
       category: 'other',
     ),
     Product(
@@ -108,6 +119,7 @@ class Shop extends ChangeNotifier {
       price: 39.99,
       description: "Snap the magnetic charging puck onto a compatible iPhone for easy alignment and wireless charging. A USB-C power adapter is sold separately.",
       imagePath: 'photo/photo1.jpg',
+      imagePaths: ProductGallery.forId(11),
       category: 'other',
     ),
     Product(
@@ -116,6 +128,7 @@ class Shop extends ChangeNotifier {
       price: 89.99,
       description: "A pressure- and tilt-sensitive stylus for compatible iPad models, with low-latency drawing, wireless magnetic pairing and charging, and double-tap tool switching.",
       imagePath: 'photo/photo1.jpg',
+      imagePaths: ProductGallery.forId(12),
       category: 'other',
     ),
   ];
@@ -154,6 +167,7 @@ class Shop extends ChangeNotifier {
         price: product.price,
         description: product.description,
         imagePath: product.imagePath,
+                imagePaths: product.imagePaths,
         category: product.category,
       ));
     }
@@ -212,6 +226,7 @@ class Shop extends ChangeNotifier {
                 price: product.price,
                 description: product.description,
                 imagePath: product.imagePath,
+                imagePaths: product.imagePaths,
                 category: product.category,
                 quantity: product.quantity,
               ))
@@ -236,6 +251,7 @@ class Shop extends ChangeNotifier {
         'price': product.price,
         'description': product.description,
         'image': product.imagePath,
+        'images': product.imagePaths,
         'category': product.category,
         'quantity': product.quantity,
       };
@@ -248,6 +264,8 @@ class Shop extends ChangeNotifier {
       price: (item['price'] as num).toDouble(),
       description: item['description'] as String,
       imagePath: item['image'] as String,
+      imagePaths: (item['images'] as List?)?.whereType<String>().toList() ??
+          ProductGallery.forId((item['id'] as num).toInt()),
       category: item['category'] as String,
       quantity: (item['quantity'] as num).toInt(),
     );

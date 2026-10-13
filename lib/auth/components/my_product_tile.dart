@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/auth/components/product_artwork.dart';
+import 'package:shop_app/auth/components/bag_feedback.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/product.dart';
 import 'package:shop_app/auth/models/shop.dart';
@@ -133,12 +134,7 @@ class MyProductTile extends StatelessWidget {
                       tooltip: 'Add to bag',
                       onPressed: () {
                         context.read<Shop>().addToCart(product.id, product);
-                        ScaffoldMessenger.of(context)
-                          ..hideCurrentSnackBar()
-                          ..showSnackBar(SnackBar(
-                            content: Text('${product.name} added to bag'),
-                            duration: const Duration(seconds: 2),
-                          ));
+                        BagFeedback.show(context);
                       },
                       icon: const Icon(Icons.add_rounded, size: 22),
                     ),

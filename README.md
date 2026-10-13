@@ -9,7 +9,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 | Area | What works |
 | --- | --- |
 | Discover | Responsive product grid, category chips, live product search |
-| Products | Detail screens, product-specific illustrations and quantity selection |
+| Products | Swipeable 2–3 view product galleries, zoom, thumbnails and quantity selection |
 | Wishlist | Save/remove favorites, dedicated favorites screen |
 | Bag | Add items, update quantities, remove items, clear cart, live totals |
 | Checkout | Name/address validation, simulated payment methods, WELCOME10 promo |

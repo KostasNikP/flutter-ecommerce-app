@@ -30,3 +30,24 @@ are fictional demo prices, not current offers. Image authors do not endorse this
 Note: Network photos require an internet connection, and Wikimedia can change
 its URLs or response policies. Bundling optimized assets with the required
 attribution would be recommended for an offline production app.
+
+## Additional photo gallery credits
+
+The following Wikimedia Commons files are also referenced in the product
+galleries. See each file page for the creator, license, and attribution.
+For AirPods Pro, iPad Air, and MagSafe Charger, the second view is a close-up
+crop of the *same* matching source image, not an unrelated product photograph.
+
+| Product | Additional Commons sources |
+| --- | --- |
+| iPhone 11 | [Back view](https://commons.wikimedia.org/wiki/File:Back_view_of_iPhone_11_white.jpg) |
+| iPhone 12 | [PRODUCT(RED) front](https://commons.wikimedia.org/wiki/File:Iphone-12-product--red.png), [rear](https://commons.wikimedia.org/wiki/File:Rear_3_lenses_of_an_iPhone_12.jpg) |
+| iPhone 13 | [Photo](https://commons.wikimedia.org/wiki/File:IPhone_13.jpg), [white model](https://commons.wikimedia.org/wiki/File:IPhone_13_White_256g.jpg) |
+| iPhone 14 | [Photo](https://commons.wikimedia.org/wiki/File:IPhone_14_-_3.jpg), [second view](https://commons.wikimedia.org/wiki/File:IPhone_14_20240225.jpg) |
+| iPhone 15 | [Back](https://commons.wikimedia.org/wiki/File:Back_of_iPhone_15.jpg), [back and side](https://commons.wikimedia.org/wiki/File:Back_and_side_of_iPhone_15.jpg) |
+| Watch SE 2 | [Watch with blue sport loop](https://commons.wikimedia.org/wiki/File:Apple_Watch_SE_2_(GPS_%2B_Cellular,_40mm,_Midnight)_with_Anchor_Blue_Sport_Loop.jpg) |
+| MacBook Air M2 | [Midnight](https://commons.wikimedia.org/wiki/File:M2_Macbook_Air_Midnight_model_-_1.jpg), [rear A2681](https://commons.wikimedia.org/wiki/File:MacBook_Air_(A2681)_rear.jpg) |
+| Apple TV 4K | [Full device](https://commons.wikimedia.org/wiki/File:Apple_TV_4K_(3rd_Generation,_2022)_with_Siri_Remote.jpg), [Siri remote](https://commons.wikimedia.org/wiki/File:Siri_Remote_(3rd_Generation,_2022).jpg) |
+| Apple Pencil 2 | [Photo](https://commons.wikimedia.org/wiki/File:Apple_Pencil_Second_Generation.jpg), [detail](https://commons.wikimedia.org/wiki/File:Apple_Pencil_Second_Generation_-_5.jpg) |
+
+The original bundled iPhone image copyright status is still unverified.
