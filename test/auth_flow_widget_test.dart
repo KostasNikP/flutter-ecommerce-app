@@ -84,4 +84,35 @@ void main() {
     expect(user.email, 'alex@example.com');
     expect(find.text('SHOP_READY'), findsOneWidget);
   });
+  testWidgets('entry does not use decorative sparkle or AI icons',
+      (tester) async {
+    await openEntry(tester);
+    expect(find.byIcon(Icons.auto_awesome_rounded), findsNothing);
+    expect(find.byIcon(Icons.bolt_rounded), findsNothing);
+    expect(find.text('Browse the collection.'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('desktop entry keeps the same minimal brand',
+      (tester) async {
+    tester.view.physicalSize = const Size(1024, 768);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final user = UserProvider();
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(
+        value: user,
+        child: const MaterialApp(
+          home: LoginPage(),
+        ),
+      ),
+    );
+    await tester.pump();
+    expect(find.text('TECH STORE'), findsOneWidget);
+    expect(find.byIcon(Icons.auto_awesome_rounded), findsNothing);
+    expect(find.byIcon(Icons.bolt_rounded), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
 }

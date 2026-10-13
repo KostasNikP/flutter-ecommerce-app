@@ -26,7 +26,7 @@ class ProductArtwork extends StatelessWidget {
       case 10:
         return Icons.tv_rounded;
       case 11:
-        return Icons.bolt_rounded;
+        return Icons.battery_charging_full_rounded;
       case 12:
         return Icons.edit_rounded;
       default:
@@ -54,7 +54,6 @@ class ProductArtwork extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final shortest = constraints.biggest.shortestSide;
-        final diameter = (shortest * 0.73).clamp(38.0, 240.0).toDouble();
         final iconSize = (shortest * 0.43).clamp(24.0, 125.0).toDouble();
 
         return Container(
@@ -69,43 +68,13 @@ class ProductArtwork extends StatelessWidget {
                   : const [Color(0xFFF0F0FA), Color(0xFFE9EBF6)],
             ),
           ),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Positioned(
-                top: -shortest * 0.3,
-                right: -shortest * 0.3,
-                child: Container(
-                  width: shortest * 0.86,
-                  height: shortest * 0.86,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: color.withValues(alpha: 0.18),
-                    ),
-                  ),
-                ),
-              ),
-              Center(
-                child: Container(
-                  width: diameter,
-                  height: diameter,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: color.withValues(alpha: isDark ? 0.12 : 0.20),
-                    border: Border.all(
-                      color: color.withValues(alpha: 0.24),
-                    ),
-                  ),
-                  child: Icon(
-                    iconFor(product.id),
-                    size: iconSize,
-                    color: color,
-                    semanticLabel: product.name,
-                  ),
-                ),
-              ),
-            ],
+          child: Center(
+            child: Icon(
+              iconFor(product.id),
+              size: iconSize,
+              color: color,
+              semanticLabel: product.name,
+            ),
           ),
         );
       },

@@ -51,9 +51,9 @@ class _LoginPageState extends State<LoginPage> {
 
     return AuthLayout(
       eyebrow: 'Welcome',
-      heading: 'Find your next favorite.',
+      heading: 'Browse the collection.'
       description:
-          'Discover thoughtful tech essentials in a beautifully simple store.',
+          'Phones, computers and accessories in one place.',
       form: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 26),
         decoration: BoxDecoration(
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.lock_outline_rounded,
+              const Icon(Icons.storefront_outlined,
                   color: AppPalette.accent, size: 25),
               const SizedBox(height: 13),
               Text(
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 7),
               Text(
-                'Choose how you want to enter the demo store.',
+                'Choose an option to continue.',
                 style: TextStyle(
                   color: muted,
                   height: 1.4,

@@ -197,7 +197,7 @@ class _ShopPageState extends State<ShopPage> {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Find your next favorite piece of tech.',
+                        'Browse phones, computers and accessories.',
                         style: TextStyle(color: muted, fontSize: 14),
                       ),
                       const SizedBox(height: 23),
@@ -374,15 +374,7 @@ class _ShopPageState extends State<ShopPage> {
                           itemBuilder: (context, index) =>
                               MyProductTile(product: products[index]),
                         ),
-                      const SizedBox(height: 32),
-                      Divider(color: stroke),
-                      const SizedBox(height: 8),
-                      Center(
-                        child: Text(
-                          'Flutter E-Commerce · Portfolio Demo',
-                          style: TextStyle(color: muted, fontSize: 12),
-                        ),
-                      ),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
@@ -397,70 +389,47 @@ class _ShopPageState extends State<ShopPage> {
   Widget _buildHero(BuildContext context, bool compact) {
     return Container(
       width: double.infinity,
-      constraints: BoxConstraints(minHeight: compact ? 240 : 270),
-      clipBehavior: Clip.antiAlias,
+      constraints: BoxConstraints(minHeight: compact ? 200 : 225),
+      padding: EdgeInsets.all(compact ? 26 : 42),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(compact ? 22 : 28),
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF30246D),
-            Color(0xFF17163A),
-          ],
+          colors: [Color(0xFF30246D), Color(0xFF17163A)],
         ),
       ),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Positioned(
-            right: compact ? -62 : 34,
-            top: compact ? 22 : 20,
-            child: Icon(
-              Icons.devices_rounded,
-              size: compact ? 190 : 242,
-              color: Colors.white.withValues(alpha: 0.065),
+          const Text(
+            'TECH STORE',
+            style: TextStyle(
+              color: AppPalette.mint,
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.6,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(compact ? 25 : 46),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'CURATED TECH  /  THE EDIT',
-                  style: TextStyle(
-                    color: AppPalette.mint,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 2.0,
-                  ),
-                ),
-                const SizedBox(height: 17),
-                Text(
-                  compact
-                      ? 'Good tech.\nSimple shopping.'
-                      : 'Discover tech. Love the details.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: compact ? 31 : 39,
-                    fontWeight: FontWeight.w800,
-                    height: 1.12,
-                    letterSpacing: -1.4,
-                  ),
-                ),
-                const SizedBox(height: 14),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 420),
-                  child: const Text(
-                    'Discover phones, accessories and everyday essentials — all in one place.',
-                    style: TextStyle(
-                      color: Color(0xFFC2CBD5),
-                      fontSize: 14,
-                      height: 1.5,
-                    ),
-                  ),
-                ),
-              ],
+          const SizedBox(height: 18),
+          Text(
+            compact ? 'Technology for every day.' : 'Explore the collection.',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: compact ? 29 : 38,
+              fontWeight: FontWeight.w800,
+              height: 1.2,
+              letterSpacing: -1.0,
+            ),
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'Phones, computers, audio and accessories.',
+            style: TextStyle(
+              color: Color(0xFFC2CBD5),
+              fontSize: 14,
+              height: 1.5,
             ),
           ),
         ],

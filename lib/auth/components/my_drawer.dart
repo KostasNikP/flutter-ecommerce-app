@@ -40,7 +40,7 @@ class MyDrawer extends StatelessWidget {
                     const CircleAvatar(
                       radius: 25,
                       backgroundColor: AppPalette.accent,
-                      child: Icon(Icons.bolt_rounded,
+                      child: Icon(Icons.storefront_outlined,
                           color: Colors.white, size: 30),
                     ),
                     const SizedBox(width: 13),

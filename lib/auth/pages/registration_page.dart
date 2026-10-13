@@ -41,9 +41,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
     final muted = AppPalette.subdued(context);
     return AuthLayout(
       eyebrow: 'Your space',
-      heading: 'Make it yours.',
+      heading: 'Create a profile.'
       description:
-          'Personalize your experience with a simple local demo profile.',
+          'Choose a display name and explore the store.',
       form: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
         decoration: BoxDecoration(
@@ -71,7 +71,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Just a name and an email to customize the experience.',
+                'Enter a name and email address to continue.',
                 style: TextStyle(color: muted, height: 1.5, fontSize: 13),
               ),
               const SizedBox(height: 24),
