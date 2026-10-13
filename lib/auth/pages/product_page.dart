@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/auth/components/product_artwork.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/product.dart';
 import 'package:shop_app/auth/models/shop.dart';
@@ -70,12 +71,7 @@ class _ProductPageState extends State<ProductPage> {
             ),
             child: Hero(
               tag: 'product-${product.id}',
-              child: Image.asset(
-                product.imagePath,
-                fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) =>
-                    Icon(Icons.devices_other_rounded, size: 100, color: muted),
-              ),
+              child: ProductArtwork(product: product),
             ),
           );
           final details = Column(
