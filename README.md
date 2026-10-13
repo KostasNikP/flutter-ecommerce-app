@@ -13,7 +13,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 | Wishlist | Save/remove favorites, dedicated favorites screen |
 | Bag | Add items, update quantities, remove items, clear cart, live totals |
 | Checkout | Name/address validation, simulated payment methods, WELCOME10 promo |
-| Orders | Confirmation, itemized responsive receipts, copy to clipboard and order history |
+| Orders | Responsive order history with formatted prices, itemized receipts and copy-to-clipboard |
 | Entry & profile | Responsive sign-in, demo email entry, instant demo account, guest access, demo profile registration, theme switch, wishlist/orders links |
 | Navigation | Side drawer, direct bag access, route handling |
 
