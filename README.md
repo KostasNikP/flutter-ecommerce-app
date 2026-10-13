@@ -1,4 +1,4 @@
-# NOVA — Flutter Tech Store
+# Flutter E-Commerce — Tech Store Demo
 
 A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile and web. Built with Dart, Material 3 and Provider, with a light/dark theme, search, a wishlist and a complete **simulated** checkout flow.
 
@@ -23,7 +23,7 @@ A responsive, polished **Flutter e-commerce portfolio demo** designed for mobile
 
 ## Screenshots / Demo
 
-The existing [demo GIF](demo.gif) was recorded before the NOVA redesign and may show an earlier interface.
+The existing [demo GIF](demo.gif) was recorded before the current redesign and may show an earlier interface.
 
 ## Tech stack
 
@@ -81,7 +81,7 @@ lib/
     models/        # Products, cart, wishlist, order snapshots, demo user
     pages/         # Store, product, favorites, cart, checkout, orders, profile
     components/    # Product artwork, cards, drawer and reusable widgets
-    themes/        # Shared NOVA palette and light/dark themes
+    themes/        # Shared storefront palette and light/dark themes
 test/
   widget_test.dart # State-model tests
 ```

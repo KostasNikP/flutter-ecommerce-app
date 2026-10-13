@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NOVA · Tech Store Demo',
+      title: 'Tech Store · Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: context.watch<ThemeProvider>().themeData,
       initialRoute: '/',

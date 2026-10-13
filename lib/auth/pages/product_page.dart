@@ -84,7 +84,7 @@ class _ProductPageState extends State<ProductPage> {
                   color: AppPalette.mint,
                   borderRadius: BorderRadius.circular(9),
                 ),
-                child: const Text('THE NOVA COLLECTION',
+                child: const Text('THE TECH COLLECTION',
                     style: TextStyle(
                       color: AppPalette.ink,
                       fontSize: 11,

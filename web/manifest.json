@@ -1,6 +1,6 @@
 {
-    "name": "shop_app",
-    "short_name": "shop_app",
+    "name": "Tech Store · Flutter Demo",
+    "short_name": "Tech Store",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

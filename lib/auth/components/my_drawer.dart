@@ -47,12 +47,12 @@ class MyDrawer extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('NOVA.',
+                        Text('TECH STORE',
                             style: TextStyle(
                                 color: color,
                                 fontWeight: FontWeight.w900,
                                 fontSize: 22)),
-                        Text('Your tech store',
+                        Text('Explore the collection',
                             style: TextStyle(
                                 color: AppPalette.subdued(context),
                                 fontSize: 12)),

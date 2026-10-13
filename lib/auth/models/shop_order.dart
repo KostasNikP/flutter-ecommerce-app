@@ -29,7 +29,7 @@ class ShopOrder {
 
   String get receipt {
     final lines = StringBuffer()
-      ..writeln('NOVA / Demo order #$id')
+      ..writeln('Tech Store / Demo order #$id')
       ..writeln(DateFormat('dd MMM yyyy, HH:mm').format(createdAt))
       ..writeln('--------------------------------');
     for (final item in items) {

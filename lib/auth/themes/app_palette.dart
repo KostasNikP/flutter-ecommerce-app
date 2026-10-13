@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Shared design tokens for the NOVA storefront.
+/// Shared design tokens for the storefront.
 class AppPalette {
   static const accent = Color(0xFF6657EF);
   static const mint = Color(0xFFCDFA86);

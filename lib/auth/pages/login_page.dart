@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                         size: 36, color: Colors.white),
                   ),
                   const SizedBox(height: 36),
-                  Text('Welcome to NOVA.',
+                  Text('Welcome to the store.',
                       style: TextStyle(
                         color: ink,
                         fontWeight: FontWeight.w900,

@@ -85,7 +85,7 @@ class _ShopPageState extends State<ShopPage> {
           ),
         ),
         title: Text(
-          'NOVA.',
+          'Tech Store',
           style: TextStyle(
             color: foreground,
             fontSize: 25,
@@ -358,7 +358,7 @@ class _ShopPageState extends State<ShopPage> {
                       const SizedBox(height: 8),
                       Center(
                         child: Text(
-                          'NOVA · Designed in Flutter · Portfolio demo',
+                          'Flutter E-Commerce · Portfolio Demo',
                           style: TextStyle(color: muted, fontSize: 12),
                         ),
                       ),
@@ -406,7 +406,7 @@ class _ShopPageState extends State<ShopPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'NOVA  /  THE TECH EDIT',
+                  'CURATED TECH  /  THE EDIT',
                   style: TextStyle(
                     color: AppPalette.mint,
                     fontSize: 11,

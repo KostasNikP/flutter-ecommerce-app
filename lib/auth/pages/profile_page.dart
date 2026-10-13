@@ -148,7 +148,7 @@ class ProfilePage extends StatelessWidget {
                       ? Icons.dark_mode_rounded
                       : Icons.light_mode_outlined),
                   title: const Text('Dark mode'),
-                  subtitle: const Text('Customize how NOVA looks'),
+                  subtitle: const Text('Customize the appearance'),
                   value: theme.isDarkMode,
                   onChanged: (_) => context.read<ThemeProvider>().toggleTheme(),
                 ),
@@ -156,7 +156,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 25),
               Center(
                 child: Text(
-                  'NOVA demo · Favorites, bag, orders and theme are saved on this device.',
+                  'Demo store · Favorites, bag, orders and theme are saved on this device.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: muted, fontSize: 12),
                 ),
