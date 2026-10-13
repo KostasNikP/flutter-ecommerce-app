@@ -41,7 +41,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     final muted = AppPalette.subdued(context);
     return AuthLayout(
       eyebrow: 'Your space',
-      heading: 'Create a profile.'
+      heading: 'Create a profile.',
       description:
           'Choose a display name and explore the store.',
       form: Container(

@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return AuthLayout(
       eyebrow: 'Welcome',
-      heading: 'Browse the collection.'
+      heading: 'Browse the collection.',
       description:
           'Phones, computers and accessories in one place.',
       form: Container(
