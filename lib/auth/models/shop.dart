@@ -222,6 +222,7 @@ class Shop extends ChangeNotifier {
       customerName: customerName.trim(),
       deliveryAddress: deliveryAddress.trim(),
       paymentMethod: paymentMethod,
+      promoCode: discount > 0 ? 'WELCOME10' : '',
     );
     _orders.insert(0, order);
     _cart.clear();
@@ -262,6 +263,7 @@ class Shop extends ChangeNotifier {
         'customerName': order.customerName,
         'deliveryAddress': order.deliveryAddress,
         'paymentMethod': order.paymentMethod,
+        'promoCode': order.promoCode,
       };
 
   ShopOrder _orderFromJson(Object? raw) {
@@ -278,6 +280,7 @@ class Shop extends ChangeNotifier {
       customerName: item['customerName'] as String,
       deliveryAddress: item['deliveryAddress'] as String,
       paymentMethod: item['paymentMethod'] as String,
+      promoCode: item['promoCode'] as String? ?? '',
     );
   }
 

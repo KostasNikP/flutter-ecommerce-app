@@ -23,8 +23,8 @@ class MyCartTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 100,
-            width: 90,
+            height: 96,
+            width: MediaQuery.sizeOf(context).width < 380 ? 68 : 90,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: AppPalette.isDark(context)
@@ -34,7 +34,7 @@ class MyCartTile extends StatelessWidget {
             ),
             child: ProductArtwork(product: product),
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: MediaQuery.sizeOf(context).width < 380 ? 10 : 15),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,10 @@ class MyCartTile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(
+                Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     _quantityButton(
                       Icons.remove_rounded,
@@ -75,7 +78,6 @@ class MyCartTile extends StatelessWidget {
                       () => context.read<Shop>()
                           .addToCart(product.id, product),
                     ),
-                    const Spacer(),
                     IconButton(
                       tooltip: 'Remove item',
                       visualDensity: VisualDensity.compact,
@@ -96,8 +98,8 @@ class MyCartTile extends StatelessWidget {
   Widget _quantityButton(
       IconData icon, String tooltip, VoidCallback onPressed) {
     return SizedBox(
-      width: 32,
-      height: 32,
+      width: 40,
+      height: 40,
       child: IconButton.outlined(
         tooltip: tooltip,
         padding: EdgeInsets.zero,

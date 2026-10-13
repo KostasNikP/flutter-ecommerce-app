@@ -65,7 +65,7 @@ class FavoritesPage extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: favorites.length,
                         gridDelegate:
-                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                            SliverGridDelegateWithMaxCrossAxisExtent(
                           maxCrossAxisExtent: constraints.maxWidth < 650 ? 210 : 275,
                           mainAxisSpacing: 16,
                           crossAxisSpacing: 16,

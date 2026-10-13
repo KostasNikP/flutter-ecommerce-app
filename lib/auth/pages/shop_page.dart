@@ -71,6 +71,25 @@ class _ShopPageState extends State<ShopPage> {
     return Scaffold(
       backgroundColor: background,
       drawer: const MyDrawer(),
+      bottomNavigationBar: MediaQuery.sizeOf(context).width < 620
+          ? NavigationBar(
+              height: 72,
+              selectedIndex: 0,
+              onDestinationSelected: (index) {
+                switch (index) {
+                  case 1: Navigator.pushNamed(context, '/favorites_page'); break;
+                  case 2: Navigator.pushNamed(context, '/cart_page'); break;
+                  case 3: Navigator.pushNamed(context, '/profile_page'); break;
+                }
+              },
+              destinations: const [
+                NavigationDestination(icon: Icon(Icons.storefront_outlined), label: 'Shop'),
+                NavigationDestination(icon: Icon(Icons.favorite_border_rounded), label: 'Saved'),
+                NavigationDestination(icon: Icon(Icons.shopping_bag_outlined), label: 'Bag'),
+                NavigationDestination(icon: Icon(Icons.person_outline_rounded), label: 'Profile'),
+              ],
+            )
+          : null,
       appBar: AppBar(
         backgroundColor: background,
         surfaceTintColor: Colors.transparent,
@@ -94,13 +113,15 @@ class _ShopPageState extends State<ShopPage> {
           ),
         ),
         actions: [
-          IconButton(
-            tooltip: 'Wishlist',
+          if (MediaQuery.sizeOf(context).width >= 620)
+            IconButton(
+              tooltip: 'Wishlist',
             icon: const Icon(Icons.favorite_border_rounded),
             onPressed: () => Navigator.pushNamed(context, '/favorites_page'),
           ),
-          IconButton(
-            tooltip: 'Orders',
+          if (MediaQuery.sizeOf(context).width >= 620)
+            IconButton(
+              tooltip: 'Orders',
             icon: const Icon(Icons.receipt_long_outlined),
             onPressed: () => Navigator.pushNamed(context, '/orders_page'),
           ),
