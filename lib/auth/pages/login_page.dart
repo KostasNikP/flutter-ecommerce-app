@@ -1,208 +1,139 @@
-import 'package:shop_app/auth/components/my_signIn.dart';
-import 'package:shop_app/auth/components/my_textfield.dart';
-import 'package:shop_app/auth/components/square_tile.dart';
-import 'package:shop_app/auth/models/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/auth/models/user_provider.dart';
+import 'package:shop_app/auth/themes/app_palette.dart';
 
+class LoginPage extends StatefulWidget {
+  final VoidCallback onTap;
+  const LoginPage({super.key, required this.onTap});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _name = TextEditingController();
 
-class LoginPage extends StatelessWidget {
-  final VoidCallback onTap; 
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
 
-  LoginPage({super.key, required this.onTap});
+  void _enterShop({bool guest = false}) {
+    if (!guest && !_formKey.currentState!.validate()) return;
+    final user = context.read<UserProvider>();
+    user.setUsername(guest ? 'Guest' : _name.text.trim());
+    user.setEmail('');
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/shop_page', (_) => false);
+  }
 
-
-  //text editing controllers
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  //sign user in
-  void singUserIn(){}
-
-
-
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: Theme.of(context).colorScheme.surface,
-    body: SafeArea(
-      child: SingleChildScrollView(
-        reverse: true,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 50),
-
-              //logo
-              Icon(
-                Icons.shopping_cart_sharp,
-                size: 100,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-
-              const SizedBox(height: 50),
-
-              Text(
-                "Welcome",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                  fontSize: 20,
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-              //username
-              MyTextField(
-                controller: usernameController,
-                hintText: 'Username',
-                obscureText: false,
-              ),
-
-              const SizedBox(height: 15),
-
-              //password
-              MyTextField(
-                controller: passwordController,
-                hintText: 'Password',
-                obscureText: true,
-              ),
-
-              const SizedBox(height: 10),
-
-
-
-              const SizedBox(height: 20),
-
-              //sign in button
-             mysignIn(
-  onTap: () {
-    if (usernameController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty) {
-
-    
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-      userProvider.setUsername(usernameController.text);
-      userProvider.setEmail("example@example.com"); 
-
-   
-      Navigator.pushNamed(context, '/shop_page');
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              'Αποτυχεία Σύνδεσης.',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-            ),
-            content: Text(
-              'Παρακαλώ συμπληρώστε τα στοιχεία σας.',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  },
-),
-
-              const SizedBox(height: 20),
-
-              //or Guest
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[400],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                        'Or continue with',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[400],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 50),
-
-              //google + apple
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+  @override
+  Widget build(BuildContext context) {
+    final ink = AppPalette.foreground(context);
+    final muted = AppPalette.subdued(context);
+    return Scaffold(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 470),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 42),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //google button
-                  SquareTile(imagePath: 'photo/google.png'),
-
-                  SizedBox(width: 25),
-
-                  //apple button
-                  SquareTile(imagePath: 'photo/apple.png'),
-                ],
-              ),
-
-              const SizedBox(height: 50),
-              // not a member? register now
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Not a member?',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
+                  const CircleAvatar(
+                    radius: 31,
+                    backgroundColor: AppPalette.accent,
+                    child: Icon(Icons.bolt_rounded,
+                        size: 36, color: Colors.white),
                   ),
-                  const SizedBox(width: 4),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigate to registration page
-                      Navigator.pushNamed(context, '/registration_page');
-                    },
-                    child: const Text(
-                      'Register now',
+                  const SizedBox(height: 36),
+                  Text('Welcome to NOVA.',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: ink,
                         fontWeight: FontWeight.w900,
-                      ),
+                        fontSize: 37,
+                        letterSpacing: -1.4,
+                      )),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Your favorite tech, all in one place. Explore the interactive store demo.',
+                    style: TextStyle(color: muted, height: 1.6),
+                  ),
+                  const SizedBox(height: 32),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppPalette.panel(context),
+                      borderRadius: BorderRadius.circular(23),
+                    ),
+                    padding: const EdgeInsets.all(22),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Start exploring',
+                            style: TextStyle(
+                                color: ink,
+                                fontSize: 19,
+                                fontWeight: FontWeight.w800)),
+                        const SizedBox(height: 15),
+                        TextFormField(
+                          controller: _name,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: const InputDecoration(
+                            labelText: 'Your name',
+                            prefixIcon: Icon(Icons.person_outline_rounded),
+                          ),
+                          validator: (value) =>
+                              value == null || value.trim().length < 2
+                                  ? 'Enter at least two characters'
+                                  : null,
+                          onFieldSubmitted: (_) => _enterShop(),
+                        ),
+                        const SizedBox(height: 18),
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton(
+                            onPressed: _enterShop,
+                            child: const Text('Enter demo store'),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            onPressed: () => _enterShop(guest: true),
+                            child: const Text('Continue as guest'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 22),
+                  Center(
+                    child: TextButton(
+                      onPressed: () => Navigator.pushNamed(
+                          context, '/registration_page'),
+                      child: const Text('Create a demo profile instead'),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Center(
+                    child: Text(
+                      'Portfolio demonstration · No real authentication',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: muted, fontSize: 12),
                     ),
                   ),
                 ],
-              )
-            ],
+              ),
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
