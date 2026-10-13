@@ -88,7 +88,7 @@ void main() {
       expect(shop.cart, isEmpty);
       expect(shop.orders.single.id, order.id);
       expect(order.receipt, contains('NOVA / Demo order'));
-      expect(order.receipt, contains('Test User'), isFalse);
+      expect(order.receipt, isNot(contains('Test User')));
 
       // A new cart must not alter a completed order's item snapshot.
       shop.addToCart(item.id, item);
