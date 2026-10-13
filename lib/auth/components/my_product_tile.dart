@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/auth/components/product_artwork.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/product.dart';
 import 'package:shop_app/auth/models/shop.dart';
@@ -51,15 +52,7 @@ class MyProductTile extends StatelessWidget {
                             ? const Color(0xFF2A3043)
                             : const Color(0xFFF0F1F7),
                       ),
-                      child: Image.asset(
-                        product.imagePath,
-                        fit: BoxFit.contain,
-                        errorBuilder: (_, __, ___) => Icon(
-                          Icons.devices_other_rounded,
-                          size: 50,
-                          color: muted,
-                        ),
-                      ),
+                      child: ProductArtwork(product: product),
                     ),
                     Positioned(
                       top: 10,
