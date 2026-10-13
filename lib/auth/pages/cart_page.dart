@@ -1,138 +1,144 @@
-import 'package:shop_app/auth/components/my_Button.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/auth/components/my_cart_tile.dart';
 import 'package:shop_app/auth/models/shop.dart';
 import 'package:shop_app/auth/pages/payment_page.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:shop_app/auth/themes/app_palette.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
+  Future<void> _confirmClear(BuildContext context, Shop shop) async {
+    final clear = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Empty your bag?'),
+        content: const Text('This will remove every item from your bag.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Keep items'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Clear bag'),
+          ),
+        ],
+      ),
+    );
+    if (clear == true) shop.clearCart();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<Shop>(
-      builder: (context, shop, child) {
-        final userCart = shop.cart;
-        final totalPrice = shop.getTotalPrice();
+    final shop = context.watch<Shop>();
+    final cart = shop.cart;
+    final ink = AppPalette.foreground(context);
+    final muted = AppPalette.subdued(context);
 
-        return Scaffold(
-          appBar: AppBar(
-            leading: Container(
-              margin: const EdgeInsets.only(left: 15),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.inversePrimary,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_rounded,
-                  color: Theme.of(context).colorScheme.surface,
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Your bag'),
+        actions: [
+          if (cart.isNotEmpty)
+            TextButton.icon(
+              onPressed: () => _confirmClear(context, shop),
+              icon: const Icon(Icons.delete_outline_rounded),
+              label: const Text('Clear'),
             ),
-            title: const Text('Cart'),
-            backgroundColor: const Color.fromARGB(0, 255, 0, 0),
-            foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-            actions: [
-              IconButton(
-                onPressed: userCart.isEmpty ? null : () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      title: Text(
-                        "Are you sure",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.surface,
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text(
-                            "cancel",
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.surface,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            shop.clearCart();
-                          },
-                          child: Text(
-                            "Yes",
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.surface,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.delete),
-              ),
-            ],
-          ),
-          body: Column(
-            children: [
-              Expanded(
-                child: Column(
+          const SizedBox(width: 10),
+        ],
+      ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 850),
+          child: cart.isEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    userCart.isEmpty
-                        ? Expanded(
-                            child: Center(
-                              child: Text(
-                                "Cart is empty...",
+                    const Icon(Icons.shopping_bag_outlined,
+                        size: 70, color: AppPalette.accent),
+                    const SizedBox(height: 20),
+                    Text('Your bag is empty',
+                        style: TextStyle(
+                            color: ink,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w800)),
+                    const SizedBox(height: 8),
+                    Text('Discover something great in the collection.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: muted)),
+                    const SizedBox(height: 20),
+                    FilledButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Continue shopping'),
+                    ),
+                  ],
+                )
+              : ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                    Text('Shopping bag',
+                        style: TextStyle(
+                            color: ink,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 29)),
+                    const SizedBox(height: 4),
+                    Text(
+                        '${shop.getTotalItemCount()} items · Ready when you are',
+                        style: TextStyle(color: muted)),
+                    const SizedBox(height: 22),
+                    ...cart.map((item) => Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: MyCartTile(product: item),
+                        )),
+                    const SizedBox(height: 14),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppPalette.panel(context),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.all(22),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text('Subtotal',
+                                  style: TextStyle(color: muted)),
+                              const Spacer(),
+                              Text(
+                                '\$${shop.getTotalPrice().toStringAsFixed(2)}',
                                 style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: ink,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 19,
                                 ),
                               ),
-                            ),
-                          )
-                        : Expanded(
-                            child: ListView.builder(
-                              itemCount: userCart.length,
-                              itemBuilder: (context, index) {
-                                final cartItem = userCart[index];
-                                return MyCartTile(product: cartItem);
-                              },
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Text('Demo checkout — no actual charge.',
+                              style: TextStyle(color: muted, fontSize: 12)),
+                          const SizedBox(height: 17),
+                          SizedBox(
+                            width: double.infinity,
+                            child: FilledButton.icon(
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const PaymentPage()),
+                              ),
+                              icon: const Icon(Icons.lock_outline_rounded),
+                              label: const Text('Continue to checkout'),
                             ),
                           ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-
-              Text(
-                'Total Price: \$${totalPrice.toStringAsFixed(2)}',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
-              ),
-
-              MyButton(
-                onTap: userCart.isEmpty ? null : () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PaymentPage(),
-                  ),
-                ),
-                text: "Go to checkout",
-                style: const TextStyle(fontSize: 22),
-              ),
-
-              const SizedBox(height: 25),
-            ],
-          ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
