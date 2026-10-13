@@ -89,7 +89,7 @@ void main() {
       expect(order.total, closeTo(item.price * 1.8, 0.001));
       expect(shop.cart, isEmpty);
       expect(shop.orders.single.id, order.id);
-      expect(order.receipt, contains('Tech Store / Demo order'));
+      expect(order.receipt, contains('TECH STORE · DEMO RECEIPT'));
       expect(order.receipt, contains('Test User'));
       expect(order.receipt, contains('WELCOME10'));
       expect(order.promoCode, 'WELCOME10');
