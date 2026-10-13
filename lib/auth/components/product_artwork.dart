@@ -43,8 +43,8 @@ class ProductArtwork extends StatelessWidget {
   Widget _illustration() => LayoutBuilder(
         builder: (context, constraints) {
           final size = constraints.biggest.shortestSide;
-          final diameter = (size * 0.64).clamp(40.0, 190.0);
-          final iconSize = (size * 0.34).clamp(28.0, 98.0);
+          final diameter = (size * 0.64).clamp(40.0, 190.0).toDouble();
+          final iconSize = (size * 0.34).clamp(28.0, 98.0).toDouble();
           return Center(
             child: Container(
               width: diameter,
