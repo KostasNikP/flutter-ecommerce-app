@@ -129,7 +129,6 @@ class _ShopPageState extends State<ShopPage> {
         builder: (context, constraints) {
           final compact = constraints.maxWidth < 620;
           final horizontalPadding = compact ? 18.0 : 32.0;
-          final contentWidth = constraints.maxWidth - 2 * horizontalPadding;
           return SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Center(
@@ -245,7 +244,7 @@ class _ShopPageState extends State<ShopPage> {
                                   : _categories[_category]!,
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.w750,
+                                fontWeight: FontWeight.w700,
                                 color: foreground,
                               ),
                             ),
