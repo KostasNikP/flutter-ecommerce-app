@@ -1,147 +1,52 @@
-# 🛍️ ShopApp — Flutter E-Commerce App
+# Flutter E-Commerce
 
-A fully functional mobile e-commerce application built with **Flutter**, featuring user authentication, product browsing, cart management, and a credit card payment flow.
+A responsive tech storefront built with Flutter, Dart, Material 3, and Provider. The project demonstrates a complete shopping flow on desktop and mobile.
 
----
+## Features
 
-## 📱 Demo
+- Searchable catalog with filters, sorting, and responsive grids
+- Product details with locally rendered vector artwork and quantity controls
+- Wishlist and cart with live totals
+- Sample checkout, order confirmation, detailed receipts, and order history
+- Local persistence of the cart, favorites, and orders
+- Dark theme on launch, with a light-mode option in Profile
+- Guest access, a demo account, and email-format entry
 
-<p align="center">
-  <img src="demo.gif" alt="App Demo" width="300"/>
-</p>
+## Getting started
 
----
+Install Flutter and check the development environment:
 
-## 📱 Screenshots & Features
+    flutter doctor
 
-### 🔐 Authentication
-- Login & Registration screens with form validation
-- Guest login option (Google / Apple sign-in UI)
-- User session managed via `Provider`
+From the project directory:
 
-### 🏪 Shop
-- Horizontally scrollable product sections: **Trend**, **Discount**, **Other Products**
-- Product detail page with image, description, price, and rating
-- Search bar with real-time filtering
-- Filter bar for category selection
+    flutter pub get
+    flutter run -d chrome
 
-### 🛒 Cart
-- Add / remove items with quantity management
-- Live total price calculation
-- Clear cart with confirmation dialog
-- Animated receipt display on checkout
+Use flutter run to select a connected Android device or emulator.
 
-### 💳 Payment
-- Interactive animated credit card widget (flip animation on CVV focus)
-- Credit card form with real-time card preview
-- Order confirmation dialog
-- Delivery Progress page post-payment
+## Quality checks
 
-### 🌙 Profile & Settings
-- User profile display (name, email)
-- Dark / Light mode toggle (persisted via `ThemeProvider`)
-- Side drawer navigation
+    flutter analyze
+    flutter test
+    flutter build web --release
 
----
+Tests cover cart state, coupon totals, local storage, entry methods, and responsive layouts, including order history at narrow viewport widths. GitHub Actions performs the same checks on the pull request.
 
-## 🛠️ Tech Stack
+## Project structure
 
-| Layer | Technology |
-|---|---|
-| Framework | Flutter 3.x |
-| Language | Dart |
-| State Management | Provider |
-| UI Components | Material Design 3 |
-| Credit Card UI | `flutter_credit_card` |
-| Navigation | Named Routes |
-| Localization | `intl` (date/currency formatting) |
+- lib/auth/pages: screens and route handling
+- lib/auth/components: shared UI widgets
+- lib/auth/models: products, carts, orders, and user sessions
+- lib/auth/themes: color palette and light/dark theme
+- test: model and widget tests
+
+## Scope
+
+This is a portfolio demo, not a production shop. Products and prices are sample data. Entry methods do not authenticate with a server. Checkout does not process payments or send deliveries. Cart, favorites, and example orders are stored only on the current device. Do not enter real customer or payment details.
+
+A production release would need an authentication service, a backend/database, payment integration, accessibility review, and end-to-end testing.
 
 ---
 
-## 📂 Project Structure
-
-```
-lib/
-├── main.dart                   # App entry point, MultiProvider setup
-├── auth/
-│   ├── pages/
-│   │   ├── login_page.dart              # Login screen
-│   │   ├── registration_page.dart       # Registration screen
-│   │   ├── shop_page.dart               # Main shop with product sections
-│   │   ├── product_page.dart            # Product detail view
-│   │   ├── cart_page.dart               # Shopping cart
-│   │   ├── payment_page.dart            # Credit card checkout
-│   │   ├── delivery_progress_page.dart  # Post-payment receipt
-│   │   ├── shop_filter_page.dart        # Filtered products view
-│   │   └── profile_page.dart            # User profile + theme toggle
-│   ├── models/
-│   │   ├── product.dart        # Product data model
-│   │   ├── shop.dart           # Shop state (cart logic, receipt)
-│   │   └── user_provider.dart  # User session state
-│   ├── components/
-│   │   ├── my_product_tile.dart    # Product card widget
-│   │   ├── my_cart_tile.dart       # Cart item widget
-│   │   ├── my_quantity_selector.dart # Quantity +/- widget
-│   │   ├── my_drawer.dart          # Side navigation drawer
-│   │   ├── search_bar.dart         # Search & filter component
-│   │   └── ...                     # Other reusable widgets
-│   └── themes/
-│       ├── light_mode.dart         # Light theme definition
-│       ├── dark_mode.dart          # Dark theme definition
-│       └── theme_provider.dart     # Theme state management
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Flutter SDK `>=3.3.4`
-- Dart SDK `>=3.3.4`
-- Android Studio / Xcode (for emulator)
-
-### Installation
-
-```bash
-# 1. Clone the repo
-git clone https://github.com/KostasNikP/app.git
-cd app
-
-# 2. Install dependencies
-flutter pub get
-
-# 3. Run the app
-flutter run
-```
-
----
-
-## 📦 Dependencies
-
-```yaml
-provider: ^6.1.2            # State management
-flutter_credit_card: ^4.0.1 # Animated credit card widget
-flutter_rating_bar: ^4.0.1  # Product star ratings
-google_nav_bar: ^5.0.6      # Bottom navigation
-intl: ^0.19.0               # Date & currency formatting
-filter_list: ^1.0.2         # Category filtering
-cupertino_icons: ^1.0.6     # iOS-style icons
-```
-
----
-
-## 🔮 Planned Improvements
-
-- [ ] Firebase Authentication (real login/register)
-- [ ] Firestore database for dynamic products
-- [ ] Favorites / Wishlist feature
-- [ ] Order history page
-- [ ] Push notifications for delivery updates
-- [ ] Unit & widget tests
-
----
-
-## 👨‍💻 Author
-
-**Kostas Nikp**  
-GitHub: [@KostasNikP](https://github.com/KostasNikP)
+Developed by [Konstantinos Nikolakopoulos](https://github.com/KostasNikP).

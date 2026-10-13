@@ -1,208 +1,227 @@
-import 'package:shop_app/auth/components/my_signIn.dart';
-import 'package:shop_app/auth/components/my_textfield.dart';
-import 'package:shop_app/auth/components/square_tile.dart';
-import 'package:shop_app/auth/models/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/auth/components/auth_layout.dart';
+import 'package:shop_app/auth/models/user_provider.dart';
+import 'package:shop_app/auth/themes/app_palette.dart';
 
+/// Entry choices operate entirely within a local demo session.
+/// None of these buttons perform real email, Google, or Apple authentication.
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
 
-class LoginPage extends StatelessWidget {
-  final VoidCallback onTap; 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
-  LoginPage({super.key, required this.onTap});
+  String _displayNameFromEmail(String email) {
+    final localPart = email.split('@').first
+        .replaceAll(RegExp(r'[._-]+'), ' ')
+        .trim();
+    if (localPart.isEmpty) return 'Shopper';
+    return localPart[0].toUpperCase() + localPart.substring(1);
+  }
 
+  void _startSession({required String name, String email = ''}) {
+    final user = context.read<UserProvider>();
+    user.setUsername(name);
+    user.setEmail(email);
+    Navigator.pushNamedAndRemoveUntil(context, '/shop_page', (_) => false);
+  }
 
-  //text editing controllers
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  void _continueWithEmail() {
+    if (!_formKey.currentState!.validate()) return;
+    final email = _emailController.text.trim();
+    _startSession(name: _displayNameFromEmail(email), email: email);
+  }
 
-  //sign user in
-  void singUserIn(){}
+  @override
+  Widget build(BuildContext context) {
+    final ink = AppPalette.foreground(context);
+    final muted = AppPalette.subdued(context);
 
-
-
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: Theme.of(context).colorScheme.surface,
-    body: SafeArea(
-      child: SingleChildScrollView(
-        reverse: true,
-        child: Center(
+    return AuthLayout(
+      eyebrow: 'Welcome',
+      heading: 'Browse the collection.',
+      description:
+          'Phones, computers and accessories in one place.',
+      form: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 26),
+        decoration: BoxDecoration(
+          color: AppPalette.panel(context),
+          borderRadius: BorderRadius.circular(26),
+          border: Border.all(
+            color: AppPalette.isDark(context)
+                ? const Color(0xFF303448)
+                : const Color(0xFFE7E8F0),
+          ),
+        ),
+        child: Form(
+          key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 50),
-
-              //logo
-              Icon(
-                Icons.shopping_cart_sharp,
-                size: 100,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-
-              const SizedBox(height: 50),
-
+              const Icon(Icons.storefront_outlined,
+                  color: AppPalette.accent, size: 25),
+              const SizedBox(height: 13),
               Text(
-                "Welcome",
+                'Start exploring',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                  fontSize: 20,
+                  color: ink,
+                  fontSize: 27,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: -0.7,
                 ),
               ),
-
-              const SizedBox(height: 25),
-
-              //username
-              MyTextField(
-                controller: usernameController,
-                hintText: 'Username',
-                obscureText: false,
+              const SizedBox(height: 7),
+              Text(
+                'Choose an option to continue.',
+                style: TextStyle(
+                  color: muted,
+                  height: 1.4,
+                  fontSize: 13,
+                ),
               ),
-
-              const SizedBox(height: 15),
-
-              //password
-              MyTextField(
-                controller: passwordController,
-                hintText: 'Password',
-                obscureText: true,
+              const SizedBox(height: 24),
+              Text(
+                'YOUR EMAIL',
+                style: TextStyle(
+                  color: muted,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.4,
+                ),
               ),
-
-              const SizedBox(height: 10),
-
-
-
-              const SizedBox(height: 20),
-
-              //sign in button
-             mysignIn(
-  onTap: () {
-    if (usernameController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty) {
-
-    
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-      userProvider.setUsername(usernameController.text);
-      userProvider.setEmail("example@example.com"); 
-
-   
-      Navigator.pushNamed(context, '/shop_page');
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              'Αποτυχεία Σύνδεσης.',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-            ),
-            content: Text(
-              'Παρακαλώ συμπληρώστε τα στοιχεία σας.',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
+              const SizedBox(height: 8),
+              TextFormField(
+                key: const Key('demoEmailField'),
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.go,
+                autofillHints: const [AutofillHints.email],
+                decoration: const InputDecoration(
+                  hintText: 'you@example.com',
+                  prefixIcon: Icon(Icons.alternate_email_rounded),
+                ),
+                validator: (value) {
+                  final email = value?.trim() ?? '';
+                  if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+                      .hasMatch(email)) {
+                    return 'Enter a valid email address';
+                  }
+                  return null;
                 },
-                child: const Text('OK'),
+                onFieldSubmitted: (_) => _continueWithEmail(),
               ),
-            ],
-          );
-        },
-      );
-    }
-  },
-),
-
-              const SizedBox(height: 20),
-
-              //or Guest
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[400],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                        'Or continue with',
+              const SizedBox(height: 13),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  key: const Key('continueEmailButton'),
+                  onPressed: _continueWithEmail,
+                  icon: const Icon(Icons.arrow_forward_rounded, size: 20),
+                  label: const Text('Continue with email'),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  Expanded(child: Divider(color: muted.withValues(alpha: 0.22))),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text('OR EXPLORE INSTANTLY',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey[400],
-                      ),
+                            color: muted,
+                            fontSize: 10,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.w700)),
+                  ),
+                  Expanded(child: Divider(color: muted.withValues(alpha: 0.22))),
+                ],
+              ),
+              const SizedBox(height: 18),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  key: const Key('demoAccountButton'),
+                  onPressed: () => _startSession(
+                    name: 'Demo Shopper',
+                    email: 'demo@techstore.example',
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(0, 52),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                  icon: const Icon(Icons.person_rounded),
+                  label: const Text('Try demo account'),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  key: const Key('guestButton'),
+                  onPressed: () => _startSession(name: 'Guest'),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(0, 52),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                  icon: const Icon(Icons.explore_outlined),
+                  label: const Text('Continue as guest'),
+                ),
+              ),
+              const SizedBox(height: 21),
+              Center(
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    Text('Want a custom demo profile?',
+                        style: TextStyle(color: muted, fontSize: 12)),
+                    TextButton(
+                      key: const Key('createProfileLink'),
+                      onPressed: () => Navigator.pushNamed(
+                          context, '/registration_page'),
+                      child: const Text('Create one'),
                     ),
                   ],
                 ),
               ),
-
-              const SizedBox(height: 50),
-
-              //google + apple
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //google button
-                  SquareTile(imagePath: 'photo/google.png'),
-
-                  SizedBox(width: 25),
-
-                  //apple button
-                  SquareTile(imagePath: 'photo/apple.png'),
-                ],
-              ),
-
-              const SizedBox(height: 50),
-              // not a member? register now
+              Divider(color: muted.withValues(alpha: 0.18)),
+              const SizedBox(height: 10),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Not a member?',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigate to registration page
-                      Navigator.pushNamed(context, '/registration_page');
-                    },
-                    child: const Text(
-                      'Register now',
+                  Icon(Icons.info_outline_rounded,
+                      color: muted, size: 16),
+                  const SizedBox(width: 9),
+                  Expanded(
+                    child: Text(
+                      'Portfolio demo only. Email is not verified, no real account is created, and no password is needed.',
                       style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w900,
+                        color: muted,
+                        fontSize: 11,
+                        height: 1.45,
                       ),
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

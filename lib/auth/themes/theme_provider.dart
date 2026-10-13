@@ -1,21 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:shop_app/auth/themes/dark_mode.dart';
 import 'package:shop_app/auth/themes/light_mode.dart';
-import 'package:flutter/material.dart';
 
+/// Always begin a new app session in dark mode.
+/// The user can switch to light mode temporarily from Profile.
 class ThemeProvider with ChangeNotifier {
-  ThemeData _themeData = lightMode;
+  ThemeData _themeData = darkMode;
 
   ThemeData get themeData => _themeData;
+  bool get isDarkMode => identical(_themeData, darkMode);
 
-  bool get isDarkMode => _themeData == darkMode;
-
-  set themeData(ThemeData themeData) {
-    _themeData = themeData;
+  set themeData(ThemeData nextTheme) {
+    if (identical(_themeData, nextTheme)) return;
+    _themeData = nextTheme;
     notifyListeners();
   }
 
   void toggleTheme() {
-    _themeData = _themeData == lightMode ? darkMode : lightMode;
-    notifyListeners();
+    themeData = isDarkMode ? lightMode : darkMode;
   }
 }
