@@ -64,6 +64,10 @@ Or use an Android emulator:
 flutter run
 ```
 
+## Product gallery
+
+Each product has a swipeable 2–3 view gallery, photo thumbnails and an image-zoom dialog. On models where only one verified photograph is available, the additional slide is explicitly a close-up crop of that same photograph. The shop grid and bag use the primary image. Adding to the bag displays a small floating toast above mobile navigation instead of a large snackbar.
+
 ## Mobile experience
 
 - Two-column grids on most phone widths, compact app bar and bottom navigation

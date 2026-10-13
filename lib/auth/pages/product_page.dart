@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/auth/components/product_artwork.dart';
+import 'package:shop_app/auth/components/product_gallery_view.dart';
+import 'package:shop_app/auth/components/bag_feedback.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/auth/models/product.dart';
 import 'package:shop_app/auth/models/shop.dart';
@@ -20,15 +21,7 @@ class _ProductPageState extends State<ProductPage> {
     for (var i = 0; i < quantity; i++) {
       context.read<Shop>().addToCart(widget.product.id, widget.product);
     }
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        content: Text('$quantity × ${widget.product.name} added to your bag'),
-        action: SnackBarAction(
-          label: 'VIEW BAG',
-          onPressed: () => Navigator.pushNamed(context, '/cart_page'),
-        ),
-      ));
+    BagFeedback.show(context, quantity: quantity);
   }
 
   @override
@@ -61,18 +54,9 @@ class _ProductPageState extends State<ProductPage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           final wide = constraints.maxWidth > 760;
-          final image = Container(
-            height: wide ? 490 : 310,
+          final image = SizedBox(
             width: wide ? 470 : double.infinity,
-            padding: const EdgeInsets.all(35),
-            decoration: BoxDecoration(
-              color: AppPalette.panel(context),
-              borderRadius: BorderRadius.circular(28),
-            ),
-            child: Hero(
-              tag: 'product-${product.id}',
-              child: ProductArtwork(product: product),
-            ),
+            child: ProductGalleryView(product: product, wide: wide),
           );
           final details = Column(
             crossAxisAlignment: CrossAxisAlignment.start,
