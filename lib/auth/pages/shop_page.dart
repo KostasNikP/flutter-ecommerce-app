@@ -4,6 +4,7 @@ import 'package:shop_app/auth/components/my_drawer.dart';
 import 'package:shop_app/auth/components/my_product_tile.dart';
 import 'package:shop_app/auth/models/product.dart';
 import 'package:shop_app/auth/models/shop.dart';
+import 'package:shop_app/auth/themes/app_palette.dart';
 
 class ShopPage extends StatefulWidget {
   const ShopPage({super.key});
@@ -46,16 +47,15 @@ class _ShopPageState extends State<ShopPage> {
   Widget build(BuildContext context) {
     final shop = context.watch<Shop>();
     final products = _visibleProducts(shop.shop);
-    final isDark =
-        Theme.of(context).colorScheme.surface.computeLuminance() < 0.2;
+    final isDark = AppPalette.isDark(context);
     final background =
-        isDark ? const Color(0xFF0D1117) : const Color(0xFFF7F8FA);
+        isDark ? AppPalette.darkBackground : AppPalette.lightBackground;
     final foreground =
-        isDark ? const Color(0xFFF5F7FA) : const Color(0xFF151D29);
+        AppPalette.foreground(context);
     final muted =
-        isDark ? const Color(0xFFA7B0BD) : const Color(0xFF677281);
+        AppPalette.subdued(context);
     final fieldColor =
-        isDark ? const Color(0xFF1A222C) : Colors.white;
+        AppPalette.panel(context);
     final stroke =
         isDark ? const Color(0xFF33404D) : const Color(0xFFE4E8EE);
 
@@ -76,7 +76,7 @@ class _ShopPageState extends State<ShopPage> {
           ),
         ),
         title: Text(
-          'shop.',
+          'NOVA.',
           style: TextStyle(
             color: foreground,
             fontSize: 25,
@@ -85,6 +85,16 @@ class _ShopPageState extends State<ShopPage> {
           ),
         ),
         actions: [
+          IconButton(
+            tooltip: 'Wishlist',
+            icon: const Icon(Icons.favorite_border_rounded),
+            onPressed: () => Navigator.pushNamed(context, '/favorites_page'),
+          ),
+          IconButton(
+            tooltip: 'Orders',
+            icon: const Icon(Icons.receipt_long_outlined),
+            onPressed: () => Navigator.pushNamed(context, '/orders_page'),
+          ),
           IconButton(
             tooltip: 'Open cart',
             onPressed: () => Navigator.pushNamed(context, '/cart_page'),
@@ -214,7 +224,7 @@ class _ShopPageState extends State<ShopPage> {
                             onSelected: (_) =>
                                 setState(() => _category = entry.key),
                             backgroundColor: fieldColor,
-                            selectedColor: const Color(0xFF213344),
+                            selectedColor: AppPalette.accent,
                             side: BorderSide(
                               color: selected
                                   ? const Color(0xFF213344)
@@ -313,7 +323,7 @@ class _ShopPageState extends State<ShopPage> {
                       const SizedBox(height: 8),
                       Center(
                         child: Text(
-                          'Built with Flutter · Portfolio demo',
+                          'NOVA · Designed in Flutter · Portfolio demo',
                           style: TextStyle(color: muted, fontSize: 12),
                         ),
                       ),
@@ -339,8 +349,8 @@ class _ShopPageState extends State<ShopPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF182735),
-            Color(0xFF0D1723),
+            Color(0xFF30246D),
+            Color(0xFF17163A),
           ],
         ),
       ),
@@ -361,9 +371,9 @@ class _ShopPageState extends State<ShopPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'THE TECH EDIT  /  2026',
+                  'NOVA  /  THE TECH EDIT',
                   style: TextStyle(
-                    color: Color(0xFF8EDCCF),
+                    color: AppPalette.mint,
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 2.0,
@@ -373,7 +383,7 @@ class _ShopPageState extends State<ShopPage> {
                 Text(
                   compact
                       ? 'Good tech.\nSimple shopping.'
-                      : 'Good tech. Simple shopping.',
+                      : 'Discover tech. Love the details.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: compact ? 31 : 39,
