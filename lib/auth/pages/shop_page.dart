@@ -17,6 +17,7 @@ class _ShopPageState extends State<ShopPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   String _category = 'all';
+  String _sort = 'featured';
 
   static const Map<String, String> _categories = {
     'all': 'All products',
@@ -33,7 +34,7 @@ class _ShopPageState extends State<ShopPage> {
 
   List<Product> _visibleProducts(List<Product> products) {
     final query = _searchQuery.trim().toLowerCase();
-    return products.where((product) {
+    final visible = products.where((product) {
       final matchesCategory =
           _category == 'all' || product.category == _category;
       final matchesSearch = query.isEmpty ||
@@ -41,6 +42,14 @@ class _ShopPageState extends State<ShopPage> {
           product.description.toLowerCase().contains(query);
       return matchesCategory && matchesSearch;
     }).toList();
+    if (_sort == 'price_asc') {
+      visible.sort((a, b) => a.price.compareTo(b.price));
+    } else if (_sort == 'price_desc') {
+      visible.sort((a, b) => b.price.compareTo(a.price));
+    } else if (_sort == 'name') {
+      visible.sort((a, b) => a.name.compareTo(b.name));
+    }
+    return visible;
   }
 
   @override
@@ -263,6 +272,32 @@ class _ShopPageState extends State<ShopPage> {
                             products.length.toString() +
                                 (products.length == 1 ? ' item' : ' items'),
                             style: TextStyle(color: muted, fontSize: 13),
+                          ),
+                          const SizedBox(width: 7),
+                          PopupMenuButton<String>(
+                            tooltip: 'Sort products',
+                            icon: const Icon(Icons.sort_rounded),
+                            initialValue: _sort,
+                            onSelected: (value) =>
+                                setState(() => _sort = value),
+                            itemBuilder: (_) => const [
+                              PopupMenuItem(
+                                value: 'featured',
+                                child: Text('Featured'),
+                              ),
+                              PopupMenuItem(
+                                value: 'price_asc',
+                                child: Text('Price: low to high'),
+                              ),
+                              PopupMenuItem(
+                                value: 'price_desc',
+                                child: Text('Price: high to low'),
+                              ),
+                              PopupMenuItem(
+                                value: 'name',
+                                child: Text('Name: A–Z'),
+                              ),
+                            ],
                           ),
                         ],
                       ),
