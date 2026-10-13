@@ -1,11 +1,12 @@
 name: Flutter checks
 on:
-  push:
-    branches:
-      - improve/app-quality-2026
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+concurrency:
+  group: flutter-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   analyze-test-build:
     runs-on: ubuntu-latest
